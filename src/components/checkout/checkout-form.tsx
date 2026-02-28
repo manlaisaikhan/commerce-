@@ -72,7 +72,7 @@ export function CheckoutForm() {
         const qpay = await qpayRes.json();
         setQpayData({ qrImage: qpay.qrImage, urls: qpay.urls || [] });
       } else {
-        toast.info("Захиалга үүслээ. QPay холбогдож чадсангүй.");
+        setQpayData({ qrImage: "", urls: [] });
       }
     } catch {
       toast.error("Алдаа гарлаа");
@@ -87,12 +87,12 @@ export function CheckoutForm() {
     router.push("/orders");
   };
 
-  if (qpayData && orderId) {
+  if (orderId) {
     return (
       <QPayQR
         orderId={orderId}
-        qrImage={qpayData.qrImage}
-        urls={qpayData.urls}
+        qrImage={qpayData?.qrImage ?? ""}
+        urls={qpayData?.urls ?? []}
         amount={total}
         onSuccess={handlePaymentSuccess}
       />

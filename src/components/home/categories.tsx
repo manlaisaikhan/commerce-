@@ -3,138 +3,139 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  Smartphone, Shirt, Home, Dumbbell, Sparkles, Watch, Tag,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 
-interface Category {
+interface Product {
   id: string;
   name: string;
   slug: string;
+  price: number;
+  images: string[];
 }
 
-const iconMap: Record<string, LucideIcon> = {
-  electronics: Smartphone,
-  clothing: Shirt,
-  home: Home,
-  sports: Dumbbell,
-  beauty: Sparkles,
-  accessories: Watch,
-};
+interface CategorySection {
+  id: string;
+  name: string;
+  slug: string;
+  products: Product[];
+}
 
-const gradientMap: Record<string, string> = {
-  electronics: "from-[#050d2d] via-[#0a1a5e] to-[#0d1f80]",
-  clothing:    "from-[#111111] via-[#1c1c1c] to-[#282828]",
-  home:        "from-[#1a0f00] via-[#2d1e00] to-[#3d2800]",
-  sports:      "from-[#001a08] via-[#002d12] to-[#003d18]",
-  beauty:      "from-[#1a0010] via-[#2d0020] to-[#3d0030]",
-  accessories: "from-[#0d0028] via-[#1a0050] to-[#220070]",
-};
-
-const accentMap: Record<string, string> = {
-  electronics: "text-blue-400",
-  clothing:    "text-white/70",
-  home:        "text-amber-400",
-  sports:      "text-emerald-400",
-  beauty:      "text-pink-400",
-  accessories: "text-violet-400",
-};
-
-const borderMap: Record<string, string> = {
-  electronics: "hover:border-blue-500/40",
-  clothing:    "hover:border-white/20",
-  home:        "hover:border-amber-500/40",
-  sports:      "hover:border-emerald-500/40",
-  beauty:      "hover:border-pink-500/40",
-  accessories: "hover:border-violet-500/40",
-};
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.09 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 48, scale: 0.94, filter: "blur(8px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
-  },
-};
+const ease = [0.25, 0.46, 0.45, 0.94] as [number, number, number, number];
 
 export function Categories() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [sections, setSections] = useState<CategorySection[]>([]);
 
   useEffect(() => {
     fetch("/api/categories")
       .then((r) => r.json())
-      .then((data) => { if (Array.isArray(data)) setCategories(data); })
+      .then(async (cats) => {
+        if (!Array.isArray(cats)) return;
+
+        const results = await Promise.all(
+          cats.map(async (cat) => {
+            try {
+              const res = await fetch(`/api/products?category=${cat.slug}&limit=4`);
+              const data = await res.json();
+              return { ...cat, products: data.products || [] };
+            } catch {
+              return { ...cat, products: [] };
+            }
+          })
+        );
+
+        setSections(results.filter((s) => s.products.length > 0));
+      })
       .catch(() => {});
   }, []);
 
-  if (categories.length === 0) return null;
+  if (sections.length === 0) return null;
 
   return (
-    <section className="py-20 sm:py-28">
+    <section className="py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="flex items-end justify-between mb-14"
-        >
-          <div>
-            <p className="text-[10px] tracking-[0.4em] text-white/30 uppercase mb-3 font-grotesk">
-              Ангилал
-            </p>
-            <h2 className="font-display text-5xl sm:text-7xl tracking-wide leading-none">
-              АНГИЛАЛУУД
-            </h2>
-          </div>
-        </motion.div>
+        <div className="space-y-12">
+          {sections.map((section, idx) => (
+            <motion.div
+              key={section.slug}
+              initial={{ opacity: 0, y: 56, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.75, ease, delay: idx * 0.05 }}
+            >
+              {/* Category header */}
+              <Link
+                href={`/products?category=${section.slug}`}
+                className="group flex items-center gap-5 mb-8 w-fit"
+              >
+                {/* Thumbnail */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-[#161616] border border-white/8 shrink-0">
+                  {section.products[0]?.images?.[0] ? (
+                    <img
+                      src={section.products[0].images[0]}
+                      alt=""
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-[#1e1e1e]" />
+                  )}
+                </div>
 
-        {/* Category grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
-        >
-          {categories.map((cat) => {
-            const Icon = iconMap[cat.slug] ?? Tag;
-            const gradient = gradientMap[cat.slug] ?? "from-[#111] to-[#222]";
-            const accent = accentMap[cat.slug] ?? "text-white/60";
-            const border = borderMap[cat.slug] ?? "hover:border-white/20";
+                {/* Name */}
+                <h2 className="text-xl sm:text-2xl font-semibold text-white group-hover:text-white/70 transition-colors duration-300 tracking-tight">
+                  {section.name}
+                </h2>
+              </Link>
 
-            return (
-              <motion.div key={cat.slug} variants={cardVariants}>
+              {/* Divider */}
+              <div className="h-px bg-white/8 mb-8" />
+
+              {/* Products grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
+                {section.products.slice(0, 4).map((product, pIdx) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    transition={{ duration: 0.5, ease, delay: pIdx * 0.07 }}
+                  >
+                    <Link href={`/products/${product.slug}`} className="group block">
+                      {/* Image card */}
+                      <div className="aspect-square rounded-2xl overflow-hidden bg-[#d8d8d8] mb-3 relative">
+                        {product.images?.[0] ? (
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-[#c8c8c8]" />
+                        )}
+                      </div>
+
+                      {/* Info */}
+                      <p className="text-white/85 text-sm font-medium leading-snug mb-0.5 truncate">
+                        {product.name}
+                      </p>
+                      <p className="text-white/40 text-sm">
+                        {product.price.toLocaleString()}₮
+                      </p>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* View all link */}
+              <div className="mt-6">
                 <Link
-                  href={`/products?category=${cat.slug}`}
-                  className={`group relative flex flex-col items-center justify-center aspect-square rounded-2xl overflow-hidden border border-white/5 ${border} transition-all duration-500 bg-linear-to-br ${gradient} backdrop-blur-sm`}
+                  href={`/products?category=${section.slug}`}
+                  className="text-xs text-white/30 hover:text-white/70 transition-colors uppercase tracking-[0.2em] font-medium"
                 >
-                  <div className="relative z-10 flex flex-col items-center gap-4">
-                    <div className={`transition-transform duration-300 group-hover:-translate-y-1 ${accent}`}>
-                      <Icon size={32} strokeWidth={1.2} />
-                    </div>
-                    <span className="text-[11px] sm:text-xs font-bold text-white/60 group-hover:text-white transition-colors uppercase tracking-[0.2em] text-center px-2">
-                      {cat.name}
-                    </span>
-                  </div>
-                  <div className="absolute bottom-0 left-4 right-4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white/20" />
+                  Бүгдийг харах →
                 </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

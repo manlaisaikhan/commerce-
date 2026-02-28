@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingBag, Menu, X, Search } from "lucide-react";
 import { useCartStore } from "@/lib/store/cart-store";
 import { CartSidebar } from "./cart-sidebar";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import { AuronLogo } from "@/components/ui/auron-logo";
+import { UserMenu } from "./user-menu";
 
 interface Category {
   id: string;
@@ -15,6 +18,7 @@ interface Category {
 }
 
 export function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -23,6 +27,7 @@ export function Header() {
   const itemCount = useCartStore((s) => s.itemCount());
 
   useEffect(() => {
+    if (pathname.startsWith("/auth/")) return;
     setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -33,7 +38,9 @@ export function Header() {
       .catch(() => {});
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [pathname]);
+
+  if (pathname.startsWith("/auth/")) return null;
 
   const navLinks = [
     { href: "/products", label: "Бүгд" },
@@ -52,13 +59,8 @@ export function Header() {
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 shrink-0">
-              <div className="w-10 h-10 rounded-xl bg-linear-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                <span className="text-white font-black text-sm tracking-tight">S</span>
-              </div>
-              <span className="font-display text-xl tracking-widest text-white hidden sm:block">
-                STORE
-              </span>
+            <Link href="/" className="flex items-center shrink-0">
+              <AuronLogo className="h-7 sm:h-8 w-auto" />
             </Link>
 
             {/* Desktop Nav */}
@@ -104,7 +106,7 @@ export function Header() {
                 </SignInButton>
               </SignedOut>
               <SignedIn>
-                <UserButton />
+                <UserMenu />
               </SignedIn>
 
               <button

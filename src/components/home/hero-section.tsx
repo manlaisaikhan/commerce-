@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const slides = [
-  { image: "https://i.pinimg.com/1200x/a6/ec/c3/a6ecc3832b5dcc42a77fbdf2633ac196.jpg" },
+  { image: "https://i.pinimg.com/1200x/92/50/7a/92507adbd88b6e5d07283c603e00e003.jpg" },
   { image: "https://i.pinimg.com/1200x/20/b3/3e/20b33ef326faa03a1fa82dab6bf1f91d.jpg" },
-  { image: "https://i.pinimg.com/736x/1b/7e/7f/1b7e7f24dc42d108a33ea44ec700f196.jpg" },
+  
 ];
 
 export function HeroSection() {

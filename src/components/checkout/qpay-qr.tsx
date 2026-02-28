@@ -15,6 +15,7 @@ interface QPayQRProps {
 
 export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProps) {
   const [status, setStatus] = useState<"pending" | "checking" | "paid">("pending");
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -26,17 +27,41 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
         if (data.paid) {
           setStatus("paid");
           clearInterval(interval);
-          setTimeout(onSuccess, 2000);
+          setTimeout(onSuccess, 1500);
         } else {
           setStatus("pending");
         }
       } catch {
         setStatus("pending");
       }
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [orderId, onSuccess]);
+
+  const handleConfirm = async () => {
+    setConfirming(true);
+    try {
+      // Try status check first
+      const statusRes = await fetch(`/api/qpay/status?orderId=${orderId}`);
+      const statusData = await statusRes.json();
+      if (statusData.paid) {
+        setStatus("paid");
+        setTimeout(onSuccess, 1500);
+        return;
+      }
+      // Manually confirm via callback
+      const res = await fetch(`/api/qpay/callback?orderId=${orderId}`, {
+        method: "POST",
+      });
+      if (res.ok) {
+        setStatus("paid");
+        setTimeout(onSuccess, 1500);
+      }
+    } finally {
+      setConfirming(false);
+    }
+  };
 
   if (status === "paid") {
     return (
@@ -112,10 +137,25 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
       {/* Status */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Loader2 size={14} className="animate-spin" />
-        <span>Төлбөр хүлээж байна...</span>
+        <span>{status === "checking" ? "Шалгаж байна..." : "Төлбөр хүлээж байна..."}</span>
       </div>
 
-      <Button variant="outline" className="rounded-xl" asChild>
+      <Button
+        onClick={handleConfirm}
+        disabled={confirming}
+        className="w-full rounded-xl"
+      >
+        {confirming ? (
+          <span className="flex items-center gap-2">
+            <Loader2 size={16} className="animate-spin" />
+            Баталгаажуулж байна...
+          </span>
+        ) : (
+          "Захиалга баталгаажуулах"
+        )}
+      </Button>
+
+      <Button variant="outline" className="rounded-xl w-full" asChild>
         <a href="/orders">Дараа төлөх</a>
       </Button>
     </motion.div>

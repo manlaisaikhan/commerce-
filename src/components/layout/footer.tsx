@@ -2,8 +2,13 @@
 
 import Link from "next/link";
 import { Phone, Mail, ArrowUp } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { AuronLogo } from "@/components/ui/auron-logo";
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/auth/")) return null;
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -59,9 +64,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mb-4">
-              <span className="text-black font-bold text-sm">S</span>
-            </div>
+            <AuronLogo className="h-7 w-auto mb-4" />
             <p className="text-white/50 text-sm leading-relaxed">
               Чанартай бүтээгдэхүүн, хурдан хүргэлт, найдвартай үйлчилгээ.
             </p>

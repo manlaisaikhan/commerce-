@@ -54,7 +54,7 @@ export default function AdminCategoriesPage() {
     setShowForm(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
 
@@ -162,9 +162,8 @@ export default function AdminCategoriesPage() {
                 </button>
                 <button
                   onClick={() => setDeleteId(c.id)}
-                  disabled={c._count.products > 0}
-                  className="p-2 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                  title={c._count.products > 0 ? "Бүтээгдэхүүнтэй ангилалыг устгах боломжгүй" : "Устгах"}
+                  className="p-2 hover:bg-red-500/20 text-red-400 rounded-lg transition-colors"
+                  title="Устгах"
                 >
                   <Trash2 size={14} />
                 </button>
@@ -179,7 +178,7 @@ export default function AdminCategoriesPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Устгах уу?</AlertDialogTitle>
             <AlertDialogDescription className="text-white/50">
-              Энэ ангилалыг устгахад буцаах боломжгүй.
+              Энэ ангилалыг устгахад түүн доторх бүх бүтээгдэхүүн мөн устгагдана. Буцаах боломжгүй.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

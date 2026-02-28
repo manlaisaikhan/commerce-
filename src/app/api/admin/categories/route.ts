@@ -85,7 +85,19 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "ID is required" }, { status: 400 });
   }
 
-  await prisma.category.delete({ where: { id } });
+  // Cascade: delete cart items → order items → products → category
+  const products = await prisma.product.findMany({
+    where: { categoryId: id },
+    select: { id: true },
+  });
+  const productIds = products.map((p) => p.id);
+
+  await prisma.$transaction([
+    prisma.cartItem.deleteMany({ where: { productId: { in: productIds } } }),
+    prisma.orderItem.deleteMany({ where: { productId: { in: productIds } } }),
+    prisma.product.deleteMany({ where: { categoryId: id } }),
+    prisma.category.delete({ where: { id } }),
+  ]);
 
   return NextResponse.json({ success: true });
 }
