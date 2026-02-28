@@ -31,7 +31,7 @@ export function HeroSection() {
           transition={{ duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="absolute inset-0"
         >
-          <img src={s.image} alt="" className="w-full h-full object-cover object-top" />
+          <img src={s.image} alt="" className="w-full h-full object-cover object-center" />
         </motion.div>
       ))}
 
