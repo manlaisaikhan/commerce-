@@ -79,9 +79,10 @@ export default function RegisterPage() {
 
   const handleGoogle = async () => {
     if (!isLoaded) return;
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     await signUp.authenticateWithRedirect({
       strategy: "oauth_google",
-      redirectUrl: "/sso-callback",
+      redirectUrl: `${origin}/sso-callback`,
       redirectUrlComplete: getRedirectUrl(),
     });
   };

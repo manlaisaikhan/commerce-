@@ -61,9 +61,10 @@ export default function LoginPage() {
 
   const handleGoogle = async () => {
     if (!isLoaded) return;
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     await signIn.authenticateWithRedirect({
       strategy: "oauth_google",
-      redirectUrl: "/sso-callback",
+      redirectUrl: `${origin}/sso-callback`,
       redirectUrlComplete: getRedirectUrl(),
     });
   };

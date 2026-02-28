@@ -87,7 +87,7 @@ export default function AdminOrdersPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  // Create order state
+
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [createPhone, setCreatePhone] = useState("");
   const [createAddress, setCreateAddress] = useState("");
@@ -194,7 +194,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Захиалга</h1>
@@ -228,7 +228,7 @@ export default function AdminOrdersPage() {
         ))}
       </div>
 
-      {/* Orders list */}
+
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3, 4].map((i) => (
@@ -328,7 +328,7 @@ export default function AdminOrdersPage() {
                       </div>
                     </div>
 
-                    {/* Product list */}
+
                     <div>
                       <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Бүтээгдэхүүн</p>
                       <div className="rounded-lg border border-white/5 overflow-hidden">
@@ -386,7 +386,7 @@ export default function AdminOrdersPage() {
         </div>
       )}
 
-      {/* Pagination */}
+
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 pt-2">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
@@ -403,7 +403,7 @@ export default function AdminOrdersPage() {
         </div>
       )}
 
-      {/* Create Order Sheet */}
+
       <Sheet open={showCreateForm} onOpenChange={(open) => { if (!open) resetCreateForm(); }}>
         <SheetContent
           side="right"
@@ -418,7 +418,7 @@ export default function AdminOrdersPage() {
 
           <ScrollArea className="flex-1">
             <form id="create-order-form" onSubmit={handleCreateOrder} className="px-6 py-5 space-y-5">
-              {/* Customer info */}
+
               <div className="space-y-4">
                 <p className="text-[10px] text-white/30 uppercase tracking-wider">Харилцагчийн мэдээлэл</p>
 

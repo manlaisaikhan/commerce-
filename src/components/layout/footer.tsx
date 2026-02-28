@@ -127,7 +127,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
           <p className="text-xs text-white/30">
-            &copy; 2026 STORE. Бүх эрх хуулиар хамгаалагдсан.
+            &copy; 2026 AURONSTORE. Бүх эрх хуулиар хамгаалагдсан.
           </p>
           <button
             onClick={scrollToTop}

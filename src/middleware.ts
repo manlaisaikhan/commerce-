@@ -8,7 +8,8 @@ export default clerkMiddleware(async (auth, req) => {
     const { userId } = await auth();
     if (!userId) {
       const loginUrl = new URL("/auth/login", req.url);
-      loginUrl.searchParams.set("redirect_url", req.url);
+      const redirectPath = req.nextUrl.pathname + (req.nextUrl.search || "");
+      loginUrl.searchParams.set("redirect_url", redirectPath);
       return NextResponse.redirect(loginUrl);
     }
   }
