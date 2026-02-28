@@ -47,7 +47,9 @@ export default function LoginPage() {
 
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
-        router.push(getRedirectUrl());
+        const meRes = await fetch("/api/auth/me");
+        const { isAdmin } = await meRes.json();
+        router.push(isAdmin ? "/admin" : getRedirectUrl());
       }
     } catch (err: unknown) {
       const clerkError = err as { errors?: { message: string }[] };

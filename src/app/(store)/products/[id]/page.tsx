@@ -9,8 +9,8 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
 
-  const product = await prisma.product.findUnique({
-    where: { id },
+  const product = await prisma.product.findFirst({
+    where: { OR: [{ slug: id }, { id }] },
     include: { category: true },
   });
 
