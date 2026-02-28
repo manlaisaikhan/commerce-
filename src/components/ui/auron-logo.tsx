@@ -1,4 +1,13 @@
+"use client";
+
+import { useId } from "react";
+
 export function AuronLogo({ className }: { className?: string }) {
+  const uid = useId().replace(/:/g, "");
+  const stripeId = `stripe-${uid}`;
+  const clipId = `clip-${uid}`;
+  const paraId = `para-${uid}`;
+
   return (
     <svg
       viewBox="0 0 320 50"
@@ -7,9 +16,8 @@ export function AuronLogo({ className }: { className?: string }) {
       fill="none"
     >
       <defs>
-
         <pattern
-          id="auron-stripe"
+          id={stripeId}
           x="0" y="0"
           width="320" height="6"
           patternUnits="userSpaceOnUse"
@@ -17,13 +25,12 @@ export function AuronLogo({ className }: { className?: string }) {
           <rect width="320" height="3.5" fill="white" />
         </pattern>
 
-
-        <clipPath id="auron-clip">
+        <clipPath id={clipId}>
           <text
             x="160" y="42"
             textAnchor="middle"
             fontFamily="Impact, 'Arial Black', sans-serif"
-            fontSize="44 "
+            fontSize="44"
             fontStyle="italic"
             letterSpacing="-1"
           >
@@ -31,20 +38,14 @@ export function AuronLogo({ className }: { className?: string }) {
           </text>
         </clipPath>
 
-
-        <clipPath id="para-clip">
+        <clipPath id={paraId}>
           <polygon points="14,0 320,0 306,50 0,50" />
         </clipPath>
       </defs>
 
-      <g clipPath="url(#para-clip)">
-
-        <rect x="0" y="30" width="320" height="20" fill="white" clipPath="url(#auron-clip)" />
-
-
-        <rect x="0" y="0"  width="320" height="30" fill="url(#auron-stripe)" clipPath="url(#auron-clip)" />
-
-
+      <g clipPath={`url(#${paraId})`}>
+        <rect x="0" y="30" width="320" height="20" fill="white" clipPath={`url(#${clipId})`} />
+        <rect x="0" y="0"  width="320" height="30" fill={`url(#${stripeId})`} clipPath={`url(#${clipId})`} />
         <text
           x="160" y="42"
           textAnchor="middle"
@@ -58,8 +59,6 @@ export function AuronLogo({ className }: { className?: string }) {
         >
           AURON
         </text>
-
-
       </g>
     </svg>
   );
