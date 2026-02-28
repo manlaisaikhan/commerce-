@@ -1,0 +1,139 @@
+"use client";
+
+import Link from "next/link";
+import { Phone, Mail, ArrowUp } from "lucide-react";
+
+export function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  return (
+    <footer className="bg-black border-t border-white/10">
+      {/* Info Section - like mongolz.shop */}
+      <div className="border-b border-white/10">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div>
+              <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <h3 className="text-white font-semibold mb-3">Хүргэлтийн нөхцөл</h3>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Захиалга баталгаажсанаас хойш 24-72 цагийн дотор хүргэлт хийгдэнэ. Хүргэлтээр очсон бараа буцаалт болон размер солих нөхцөлгүй болохыг анхааруулж байна.
+              </p>
+            </div>
+            <div>
+              <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="5" width="20" height="14" rx="2"/>
+                  <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+              </div>
+              <h3 className="text-white font-semibold mb-3">Төлбөрийн нөхцөл</h3>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Та худалдан авалтын төлбөрөө зөвхөн &ldquo;QPay&rdquo; төлбөрийн системээр төлөх боломжтой.
+              </p>
+            </div>
+            <div>
+              <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <h3 className="text-white font-semibold mb-3">Үйлчилгээний нөхцөл</h3>
+              <p className="text-white/50 text-sm leading-relaxed">
+                Хэрэв манай онлайн дэлгүүрийн үйлчилгээтэй холбоотой санал хүсэлт, гомдол зэргийг мэдэгдэхийг хүсвэл манай холбоо барих хэсгээр холбогдоорой.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer */}
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          {/* Brand */}
+          <div>
+            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mb-4">
+              <span className="text-black font-bold text-sm">S</span>
+            </div>
+            <p className="text-white/50 text-sm leading-relaxed">
+              Чанартай бүтээгдэхүүн, хурдан хүргэлт, найдвартай үйлчилгээ.
+            </p>
+          </div>
+
+          {/* Links */}
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
+              Туслах цэс
+            </h4>
+            <ul className="space-y-3 text-sm text-white/50">
+              <li>
+                <Link href="#" className="hover:text-white transition-colors">Бидний тухай</Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white transition-colors">Холбоо барих</Link>
+              </li>
+              <li>
+                <Link href="#" className="hover:text-white transition-colors">Түгээмэл асуулт</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
+              Бүтээгдэхүүн
+            </h4>
+            <ul className="space-y-3 text-sm text-white/50">
+              <li>
+                <Link href="/products" className="hover:text-white transition-colors">Бүх бүтээгдэхүүн</Link>
+              </li>
+              <li>
+                <Link href="/products?featured=true" className="hover:text-white transition-colors">Онцлох бүтээгдэхүүн</Link>
+              </li>
+              <li>
+                <Link href="/products?sort=newest" className="hover:text-white transition-colors">Шинэ бүтээгдэхүүн</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
+              Холбоо барих
+            </h4>
+            <ul className="space-y-3 text-sm text-white/50">
+              <li className="flex items-center gap-2">
+                <Phone size={14} />
+                <span>+976 9900-1122</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail size={14} />
+                <span>info@store.mn</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom */}
+      <div className="border-t border-white/10">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
+          <p className="text-xs text-white/30">
+            &copy; 2026 STORE. Бүх эрх хуулиар хамгаалагдсан.
+          </p>
+          <button
+            onClick={scrollToTop}
+            className="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+          >
+            <ArrowUp size={16} className="text-white/60" />
+          </button>
+        </div>
+      </div>
+    </footer>
+  );
+}
