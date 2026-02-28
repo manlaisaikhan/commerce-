@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -58,10 +59,10 @@ export function FeaturedProducts() {
           className="flex items-end justify-between mb-14"
         >
           <div>
-            <p className="text-[10px] tracking-[0.4em] text-white/30 uppercase mb-3">
+            <p className="text-[10px] tracking-[0.4em] text-white/30 uppercase mb-3 font-grotesk">
               Бүтээгдэхүүн
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-none">
+            <h2 className="font-display text-5xl sm:text-7xl tracking-wide leading-none">
               ОНЦЛОХ БАРАА
             </h2>
           </div>

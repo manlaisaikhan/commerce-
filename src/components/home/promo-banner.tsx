@@ -51,10 +51,10 @@ export function PromoBanner() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.35, duration: 0.7, ease }}
               >
-                <h2 className="text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tight leading-none mb-3">
+                <h2 className="font-display text-6xl sm:text-8xl md:text-[9rem] text-white tracking-wide leading-none mb-2">
                   ХӨНГӨЛӨЛТ
                 </h2>
-                <h3 className="text-3xl sm:text-5xl font-black text-white/20 tracking-tight mb-10">
+                <h3 className="font-display text-4xl sm:text-6xl text-white/20 tracking-wide mb-10">
                   30% ХҮРТЭЛ
                 </h3>
               </motion.div>
