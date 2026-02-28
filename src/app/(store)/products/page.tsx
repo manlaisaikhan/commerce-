@@ -79,7 +79,7 @@ export default async function ProductsPage({
     getCategories(),
   ]);
 
-  const currentCategory = categories.find((c) => c.slug === params.category);
+  const currentCategory = categories.find((c: { slug: string; name: string }) => c.slug === params.category);
 
   return (
     <div className="pt-8 pb-16 animate-page-enter">
