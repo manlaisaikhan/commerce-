@@ -57,69 +57,65 @@ export function Header() {
         }`}
       >
         <div className="flex items-center justify-between h-16 pl-2 pr-2 sm:pl-6 sm:pr-6">
-            {/* Logo */}
-            <Link href="/" className="flex items-center shrink-0">
-              <AuronLogo className="h-7 sm:h-8 w-auto" />
+          <Link href="/" className="flex items-center shrink-0">
+            <AuronLogo className="h-7 sm:h-8 w-auto" />
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-white/60 hover:text-white transition-colors relative group"
+              >
+                {link.label}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-violet-400 group-hover:w-full transition-all duration-300" />
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-1">
+            <Link
+              href="/products"
+              className="p-2.5 rounded-full hover:bg-white/10 transition-colors"
+            >
+              <Search size={18} className="text-white/70" />
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-medium text-white/60 hover:text-white transition-colors relative group"
-                >
-                  {link.label}
-                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-violet-400 group-hover:w-full transition-all duration-300" />
-                </Link>
-              ))}
-            </nav>
+            <button
+              onClick={() => setCartOpen(true)}
+              className="p-2.5 rounded-full hover:bg-white/10 transition-colors relative"
+            >
+              <ShoppingBag size={18} className="text-white/70" />
+              {mounted && itemCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-violet-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md shadow-violet-500/50">
+                  {itemCount}
+                </span>
+              )}
+            </button>
 
-            {/* Actions */}
-            <div className="flex items-center gap-1">
-              <Link
-                href="/products"
-                className="p-2.5 rounded-full hover:bg-white/10 transition-colors"
-              >
-                <Search size={18} className="text-white/70" />
-              </Link>
+            <SignedOut>
+              <SignInButton mode="redirect">
+                <button className="ml-1 px-4 py-2 rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all text-white/70 hover:text-white text-xs font-semibold tracking-wide">
+                  Нэвтрэх
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserMenu />
+            </SignedIn>
 
-              <button
-                onClick={() => setCartOpen(true)}
-                className="p-2.5 rounded-full hover:bg-white/10 transition-colors relative"
-              >
-                <ShoppingBag size={18} className="text-white/70" />
-                {mounted && itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-violet-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md shadow-violet-500/50">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
-
-              <SignedOut>
-                <SignInButton mode="redirect">
-                  <button className="ml-1 px-4 py-2 rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all text-white/70 hover:text-white text-xs font-semibold tracking-wide">
-                    Нэвтрэх
-                  </button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <UserMenu />
-              </SignedIn>
-
-              <button
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-2.5 md:hidden hover:bg-white/10 rounded-full transition-colors ml-1"
-              >
-                {mobileOpen
-                  ? <X size={18} className="text-white/70" />
-                  : <Menu size={18} className="text-white/70" />}
-              </button>
-            </div>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="p-2.5 md:hidden hover:bg-white/10 rounded-full transition-colors ml-1"
+            >
+              {mobileOpen
+                ? <X size={18} className="text-white/70" />
+                : <Menu size={18} className="text-white/70" />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
