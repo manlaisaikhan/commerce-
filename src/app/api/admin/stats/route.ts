@@ -22,7 +22,7 @@ export async function GET() {
       }),
       prisma.order.aggregate({
         _sum: { total: true },
-        where: { status: { in: ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"] } },
+        where: { status: { in: ["PAID", "PROCESSING", "SHIPPED", "DELIVERED"] as const } },
       }),
     ]);
 

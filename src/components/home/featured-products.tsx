@@ -17,6 +17,23 @@ interface Product {
   category: { name: string };
 }
 
+const ease = [0.25, 0.46, 0.45, 0.94] as [number, number, number, number];
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 50, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.6, ease },
+  },
+};
+
 export function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [tab, setTab] = useState<"new" | "bestseller">("new");
@@ -32,12 +49,12 @@ export function FeaturedProducts() {
   return (
     <section className="py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        {/* Editorial header */}
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 48, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease }}
           className="flex items-end justify-between mb-14"
         >
           <div>
@@ -57,11 +74,12 @@ export function FeaturedProducts() {
           </Link>
         </motion.div>
 
-        {/* Underline tabs */}
+        {/* Tabs */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.55, ease }}
           className="flex items-center gap-0 mb-12 border-b border-white/10"
         >
           {(["new", "bestseller"] as const).map((t) => (
@@ -84,15 +102,15 @@ export function FeaturedProducts() {
         </motion.div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {products.map((product, i) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-            >
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+        >
+          {products.map((product) => (
+            <motion.div key={product.id} variants={itemVariants}>
               <ProductCard3D
                 product={{
                   id: product.id,
@@ -107,13 +125,14 @@ export function FeaturedProducts() {
               />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Mobile view all */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.5, ease }}
           className="flex justify-center mt-12 sm:hidden"
         >
           <Link

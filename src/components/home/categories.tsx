@@ -50,6 +50,24 @@ const borderMap: Record<string, string> = {
   accessories: "hover:border-violet-500/40",
 };
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.09 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 48, scale: 0.94, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+  },
+};
+
 export function Categories() {
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -63,14 +81,14 @@ export function Categories() {
   if (categories.length === 0) return null;
 
   return (
-    <section className="py-20 sm:py-28 bg-[#080808]">
+    <section className="py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Section header */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="flex items-end justify-between mb-14"
         >
           <div>
@@ -84,26 +102,25 @@ export function Categories() {
         </motion.div>
 
         {/* Category grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-          {categories.map((cat, i) => {
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+        >
+          {categories.map((cat) => {
             const Icon = iconMap[cat.slug] ?? Tag;
             const gradient = gradientMap[cat.slug] ?? "from-[#111] to-[#222]";
             const accent = accentMap[cat.slug] ?? "text-white/60";
             const border = borderMap[cat.slug] ?? "hover:border-white/20";
 
             return (
-              <motion.div
-                key={cat.slug}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.07 }}
-              >
+              <motion.div key={cat.slug} variants={cardVariants}>
                 <Link
                   href={`/products?category=${cat.slug}`}
-                  className={`group relative flex flex-col items-center justify-center aspect-square rounded-2xl overflow-hidden border border-white/5 ${border} transition-all duration-500 bg-gradient-to-br ${gradient}`}
+                  className={`group relative flex flex-col items-center justify-center aspect-square rounded-2xl overflow-hidden border border-white/5 ${border} transition-all duration-500 bg-linear-to-br ${gradient} backdrop-blur-sm`}
                 >
-                  {/* Icon */}
                   <div className="relative z-10 flex flex-col items-center gap-4">
                     <div className={`transition-transform duration-300 group-hover:-translate-y-1 ${accent}`}>
                       <Icon size={32} strokeWidth={1.2} />
@@ -112,14 +129,12 @@ export function Categories() {
                       {cat.name}
                     </span>
                   </div>
-
-                  {/* Bottom line */}
                   <div className="absolute bottom-0 left-4 right-4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-white/20" />
                 </Link>
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

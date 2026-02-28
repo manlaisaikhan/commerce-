@@ -43,45 +43,54 @@ export function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 border-b ${
-          scrolled ? "bg-black/95 backdrop-blur-md border-white/10" : "bg-black border-white/5"
+        className={`sticky top-0 z-50 transition-all duration-500 border-b ${
+          scrolled
+            ? "bg-black/75 backdrop-blur-2xl border-white/10"
+            : "bg-black/20 backdrop-blur-xl border-white/5"
         }`}
       >
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <span className="text-black font-bold text-sm">S</span>
+            <Link href="/" className="flex items-center gap-2.5 shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-linear-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
+                <span className="text-white font-black text-xs tracking-tight">S</span>
               </div>
+              <span className="text-white font-bold text-sm tracking-tight hidden sm:block">
+                STORE
+              </span>
             </Link>
 
-            {/* Desktop Nav - Center */}
+            {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-white/70 hover:text-white transition-colors"
+                  className="text-sm font-medium text-white/60 hover:text-white transition-colors relative group"
                 >
                   {link.label}
+                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-violet-400 group-hover:w-full transition-all duration-300" />
                 </Link>
               ))}
             </nav>
 
-            {/* Actions - Right */}
+            {/* Actions */}
             <div className="flex items-center gap-1">
-              <Link href="/products" className="p-2.5 rounded-full hover:bg-white/10 transition-colors">
-                <Search size={20} className="text-white" />
+              <Link
+                href="/products"
+                className="p-2.5 rounded-full hover:bg-white/10 transition-colors"
+              >
+                <Search size={18} className="text-white/70" />
               </Link>
 
               <button
                 onClick={() => setCartOpen(true)}
                 className="p-2.5 rounded-full hover:bg-white/10 transition-colors relative"
               >
-                <ShoppingBag size={20} className="text-white" />
+                <ShoppingBag size={18} className="text-white/70" />
                 {mounted && itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-white text-black text-[10px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-violet-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md shadow-violet-500/50">
                     {itemCount}
                   </span>
                 )}
@@ -89,7 +98,7 @@ export function Header() {
 
               <SignedOut>
                 <SignInButton mode="redirect">
-                  <button className="p-2.5 rounded-full hover:bg-white/10 transition-colors text-white text-sm font-medium">
+                  <button className="ml-1 px-4 py-2 rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all text-white/70 hover:text-white text-xs font-semibold tracking-wide">
                     Нэвтрэх
                   </button>
                 </SignInButton>
@@ -100,9 +109,11 @@ export function Header() {
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="p-2.5 md:hidden hover:bg-white/10 rounded-full transition-colors"
+                className="p-2.5 md:hidden hover:bg-white/10 rounded-full transition-colors ml-1"
               >
-                {mobileOpen ? <X size={20} className="text-white" /> : <Menu size={20} className="text-white" />}
+                {mobileOpen
+                  ? <X size={18} className="text-white/70" />
+                  : <Menu size={18} className="text-white/70" />}
               </button>
             </div>
           </div>
@@ -115,7 +126,7 @@ export function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-black border-t border-white/10"
+              className="md:hidden bg-black/80 backdrop-blur-2xl border-t border-white/8"
             >
               <nav className="flex flex-col px-6 py-4 gap-1">
                 {navLinks.map((link) => (
@@ -123,7 +134,7 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-base font-medium py-3 text-white/80 hover:text-white transition-colors"
+                    className="text-base font-medium py-3 text-white/70 hover:text-white transition-colors"
                   >
                     {link.label}
                   </Link>
