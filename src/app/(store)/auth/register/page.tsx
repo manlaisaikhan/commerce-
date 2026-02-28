@@ -16,61 +16,68 @@ const clerkAppearance = {
     colorBackground: "transparent",
     colorText: "#ffffff",
     colorTextSecondary: "rgba(255,255,255,0.45)",
-    colorInputBackground: "rgba(255,255,255,0.07)",
+    colorInputBackground: "rgba(255,255,255,0.06)",
     colorInputText: "#ffffff",
-    colorPrimary: "#ffffff",
-    colorTextOnPrimaryBackground: "#000000",
-    borderRadius: "0.75rem",
+    colorPrimary: "#7c3aed",
+    colorTextOnPrimaryBackground: "#ffffff",
+    borderRadius: "0.6rem",
     colorDanger: "#ff6b6b",
     fontFamily: "inherit",
   },
   elements: {
+    header: { display: "none" },
     card: {
       background: "transparent",
       border: "none",
       boxShadow: "none",
       padding: "0",
     },
-    headerTitle: { color: "#ffffff", fontSize: "1.6rem", fontWeight: "700" },
-    headerSubtitle: { color: "rgba(255,255,255,0.4)" },
-    formFieldLabel: { color: "rgba(255,255,255,0.55)", fontSize: "0.78rem" },
+    formFieldLabel: {
+      color: "rgba(255,255,255,0.5)",
+      fontSize: "0.75rem",
+      fontWeight: "500",
+      letterSpacing: "0.05em",
+      textTransform: "uppercase",
+    },
     formFieldInput: {
-      background: "rgba(255,255,255,0.07)",
+      background: "rgba(255,255,255,0.06)",
       border: "1px solid rgba(255,255,255,0.1)",
       color: "#ffffff",
+      fontSize: "0.9rem",
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
     },
     formButtonPrimary: {
-      background: "#ffffff",
-      color: "#000000",
+      background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+      color: "#ffffff",
       fontWeight: "700",
+      fontSize: "0.8rem",
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      boxShadow: "0 4px 24px rgba(124,58,237,0.35)",
     },
     socialButtonsBlockButton: {
-      background: "rgba(255,255,255,0.06)",
+      background: "rgba(255,255,255,0.05)",
       border: "1px solid rgba(255,255,255,0.1)",
       color: "#ffffff",
       backdropFilter: "blur(12px)",
       WebkitBackdropFilter: "blur(12px)",
     },
-    socialButtonsBlockButtonText: { color: "#ffffff" },
-    socialButtonsBlockButtonArrow: { color: "rgba(255,255,255,0.35)" },
+    socialButtonsBlockButtonText: { color: "rgba(255,255,255,0.8)" },
     alternativeMethodsBlockButton: {
-      background: "rgba(255,255,255,0.06)",
+      background: "rgba(255,255,255,0.05)",
       border: "1px solid rgba(255,255,255,0.1)",
       color: "#ffffff",
-      backdropFilter: "blur(12px)",
-      WebkitBackdropFilter: "blur(12px)",
     },
-    dividerLine: { background: "rgba(255,255,255,0.08)" },
-    dividerText: { color: "rgba(255,255,255,0.3)" },
-    footerAction: { color: "rgba(255,255,255,0.35)" },
-    footerActionLink: { color: "#ffffff" },
+    dividerLine: { background: "rgba(255,255,255,0.07)" },
+    dividerText: { color: "rgba(255,255,255,0.25)", fontSize: "0.72rem" },
+    footerAction: { color: "rgba(255,255,255,0.3)", fontSize: "0.8rem" },
+    footerActionLink: { color: "#a78bfa", fontWeight: "600" },
     identityPreviewText: { color: "#ffffff" },
     identityPreviewEditButton: { color: "rgba(255,255,255,0.5)" },
-    formResendCodeLink: { color: "#ffffff" },
+    formResendCodeLink: { color: "#a78bfa" },
     otpCodeFieldInput: {
-      background: "rgba(255,255,255,0.07)",
+      background: "rgba(255,255,255,0.06)",
       border: "1px solid rgba(255,255,255,0.1)",
       color: "#ffffff",
     },
@@ -84,73 +91,98 @@ export default function RegisterPage() {
       <div className="absolute inset-0">
         <SplineScene />
       </div>
-
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
       <div className="relative z-10 h-full flex">
-        {/* Glass panel — left */}
+        {/* Glass panel */}
         <motion.div
-          initial={{ opacity: 0, x: -32 }}
+          initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="w-full lg:w-115 xl:w-125 h-full flex flex-col backdrop-blur-2xl bg-black/60 border-r border-white/8"
+          transition={{ duration: 0.75, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="w-full lg:w-115 xl:w-125 h-full flex flex-col backdrop-blur-2xl bg-black/65 border-r border-white/8"
         >
-          {/* Back */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="pt-8 px-10 shrink-0"
-          >
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 text-white/35 hover:text-white/80 text-sm transition-colors"
+          {/* Top bar */}
+          <div className="flex items-center justify-between pt-7 px-10 shrink-0">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
             >
-              <ArrowLeft className="w-4 h-4" />
-              Буцах
-            </Link>
-          </motion.div>
+              <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white/70 text-xs transition-colors">
+                <ArrowLeft className="w-3.5 h-3.5" />
+                Буцах
+              </Link>
+            </motion.div>
 
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mt-12 px-10 shrink-0"
-          >
-            <span className="text-white font-black text-2xl tracking-tight">
-              STORE<span className="text-white/20">.</span>
-            </span>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-6 h-6 rounded-md bg-linear-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-md shadow-violet-500/30">
+                <span className="text-white font-black text-[9px]">S</span>
+              </div>
+              <span className="text-white/50 text-xs font-bold tracking-widest">STORE</span>
+            </motion.div>
+          </div>
 
-          {/* Form area */}
+          {/* Custom header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="flex-1 flex flex-col justify-center px-10 overflow-y-auto py-8"
+            transition={{ delay: 0.45, duration: 0.65 }}
+            className="mt-14 px-10 shrink-0"
           >
-            <p className="text-white/25 text-[10px] uppercase tracking-[0.3em] mb-8 font-semibold">
-              Бүртгүүлэх
+            <p className="text-violet-400 text-[10px] uppercase tracking-[0.35em] font-semibold mb-4">
+              — Шинэ бүртгэл
             </p>
-            <SignUp appearance={clerkAppearance} />
+            <h1 className="text-5xl font-black text-white tracking-tight leading-none mb-3">
+              БҮРТГҮҮЛЭХ
+            </h1>
+            <p className="text-white/35 text-sm leading-relaxed">
+              Захиалга хийхийн тулд бүртгүүлнэ үү
+            </p>
           </motion.div>
 
-          <div className="h-10 shrink-0" />
-        </motion.div>
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="mx-10 mt-8 mb-6 h-px bg-white/8 shrink-0 origin-left"
+          />
 
-        {/* Right: Spline shows through */}
-        <div className="hidden lg:flex flex-1 items-end justify-end p-12 pb-16">
+          {/* Clerk form */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.7 }}
-            className="text-right"
+            transition={{ delay: 0.6, duration: 0.65 }}
+            className="flex-1 px-10 overflow-y-auto pb-8"
           >
-            <p className="text-white/15 text-[10px] uppercase tracking-[0.4em]">
+            <SignUp appearance={clerkAppearance} />
+          </motion.div>
+        </motion.div>
+
+        {/* Right — Spline visible */}
+        <div className="hidden lg:flex flex-1 flex-col justify-between p-12">
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.7 }}
+          >
+            <span className="text-white/10 text-[10px] uppercase tracking-[0.5em]">
               SS — 2026
+            </span>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.7 }}
+          >
+            <p className="text-white/8 text-[80px] font-black leading-none tracking-tighter select-none">
+              STORE
             </p>
           </motion.div>
         </div>
