@@ -56,8 +56,7 @@ export function Header() {
             : "bg-black/20 backdrop-blur-xl border-white/5"
         }`}
       >
-        <div className="max-w-[1280px] mx-auto pl-0 pr-3 sm:px-6">
-          <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 pl-2 pr-2 sm:pl-6 sm:pr-6">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <AuronLogo className="h-7 sm:h-8 w-auto" />
@@ -118,7 +117,6 @@ export function Header() {
                   : <Menu size={18} className="text-white/70" />}
               </button>
             </div>
-          </div>
         </div>
 
         {/* Mobile Menu */}
