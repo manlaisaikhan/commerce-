@@ -20,7 +20,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-[60vh] sm:h-[75vh] lg:h-[92vh] min-h-120 max-h-240 overflow-hidden">
+    <section className="relative w-full h-[45vh] sm:h-[55vh] lg:h-[70vh] min-h-72 overflow-hidden">
 
       {/* Images */}
       {slides.map((s, i) => (
