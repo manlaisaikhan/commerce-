@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { ProductGrid } from "@/components/products/product-grid";
 import { ProductFilters } from "@/components/products/product-filters";
-import { SortSelect } from "@/components/products/sort-select";
+
+
 import { Pagination } from "@/components/products/pagination";
 
 import { Skeleton } from "@/components/ui/skeleton";
@@ -107,9 +108,8 @@ export default async function ProductsPage({
                 </h1>
                 <p className="text-xs text-white/30 mt-1">{total} бүтээгдэхүүн</p>
               </div>
-              <Suspense>
-                <SortSelect />
-              </Suspense>
+
+
             </div>
 
             <Suspense fallback={<ProductsSkeleton />}>
