@@ -98,7 +98,7 @@ export function Header() {
 
             <SignedOut>
               <SignInButton mode="redirect">
-                <button className="ml-1 px-4 py-2 rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all text-white/70 hover:text-white text-xs font-semibold tracking-wide">
+                <button className="ml-1 px-5 py-2.5 rounded-full border border-white/15 hover:border-white/30 hover:bg-white/5 transition-all text-white/70 hover:text-white text-sm font-semibold tracking-wide">
                   Нэвтрэх
                 </button>
               </SignInButton>

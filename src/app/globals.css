@@ -163,10 +163,8 @@ html {
   border-radius: 3px;
 }
 
-/* Hide Clerk dev badge */
-div[class*="cl-internal"],
+/* Hide Clerk dev mode badge */
 div[data-clerk-dev],
-.cl-dev-mode,
-[data-clerk-control] {
+a[href*="clerk.com"][target="_blank"][style*="position: fixed"] {
   display: none !important;
 }
