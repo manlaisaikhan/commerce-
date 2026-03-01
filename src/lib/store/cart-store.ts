@@ -119,7 +119,16 @@ export const useCartStore = create<CartState>()(
 
       isSelected: (key) => get().selected.includes(key),
     }),
-    { name: "cart-storage" }
+    {
+      name: "cart-storage",
+      merge: (persisted, current) => {
+        const state = { ...current, ...(persisted as Partial<CartState>) };
+        if (!Array.isArray(state.selected)) {
+          state.selected = (state.items || []).map(itemKey);
+        }
+        return state;
+      },
+    }
   )
 );
 
