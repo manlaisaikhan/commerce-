@@ -162,3 +162,11 @@ html {
   background: oklch(0.3 0 0);
   border-radius: 3px;
 }
+
+/* Hide Clerk dev badge */
+div[class*="cl-internal"],
+div[data-clerk-dev],
+.cl-dev-mode,
+[data-clerk-control] {
+  display: none !important;
+}

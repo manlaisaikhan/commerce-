@@ -29,6 +29,9 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   const sizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
+  const showSizes = !/электрон|electron|tech|утас|phone|компьютер|computer|tablet/i.test(
+    product.category.name + " " + product.category.slug
+  );
 
   return (
     <div className="pt-6 pb-20 animate-page-enter">
@@ -158,25 +161,26 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </p>
             )}
 
-            {/* Size selector */}
-            <div className="mb-8">
-              <p className="text-sm font-semibold mb-3">Хэмжээ:</p>
-              <div className="flex flex-wrap gap-2">
-                {sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`min-w-[48px] h-12 px-3 border text-sm font-medium transition-all duration-200 rounded-lg ${
-                      selectedSize === size
-                        ? "bg-white text-black border-white"
-                        : "border-white/20 text-white/70 hover:border-white/50"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+            {showSizes && (
+              <div className="mb-8">
+                <p className="text-sm font-semibold mb-3">Хэмжээ:</p>
+                <div className="flex flex-wrap gap-2">
+                  {sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`min-w-[48px] h-12 px-3 border text-sm font-medium transition-all duration-200 rounded-lg ${
+                        selectedSize === size
+                          ? "bg-white text-black border-white"
+                          : "border-white/20 text-white/70 hover:border-white/50"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Quantity & Add to cart */}
             <AddToCartBtn
