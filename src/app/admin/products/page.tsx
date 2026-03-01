@@ -23,12 +23,25 @@ interface Product {
   featured: boolean;
   images: string[];
   sizes: string[];
+  colors: string[];
   categoryId: string;
   category: { name: string };
   createdAt: string;
 }
 
 const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+const COLOR_OPTIONS: { name: string; value: string }[] = [
+  { name: "Хар", value: "#000000" },
+  { name: "Цагаан", value: "#FFFFFF" },
+  { name: "Улаан", value: "#EF4444" },
+  { name: "Хөх", value: "#3B82F6" },
+  { name: "Ногоон", value: "#22C55E" },
+  { name: "Шар", value: "#EAB308" },
+  { name: "Саарал", value: "#6B7280" },
+  { name: "Бор", value: "#92400E" },
+  { name: "Ягаан", value: "#EC4899" },
+  { name: "Нил ягаан", value: "#8B5CF6" },
+];
 
 interface Category {
   id: string;
@@ -57,6 +70,7 @@ export default function AdminProductsPage() {
     featured: false,
     images: [""],
     sizes: [] as string[],
+    colors: [] as string[],
   });
 
   const fetchProducts = useCallback(async () => {
@@ -81,7 +95,7 @@ export default function AdminProductsPage() {
   }, []);
 
   const resetForm = () => {
-    setForm({ name: "", description: "", price: "", comparePrice: "", stock: "0", categoryId: "", featured: false, images: [""], sizes: [] });
+    setForm({ name: "", description: "", price: "", comparePrice: "", stock: "0", categoryId: "", featured: false, images: [""], sizes: [], colors: [] });
     setEditId(null);
     setShowForm(false);
   };
@@ -97,6 +111,7 @@ export default function AdminProductsPage() {
       featured: p.featured,
       images: p.images.length > 0 ? p.images : [""],
       sizes: p.sizes || [],
+      colors: p.colors || [],
     });
     setEditId(p.id);
     setShowForm(true);
@@ -226,6 +241,34 @@ export default function AdminProductsPage() {
                   }`}
                 >
                   {size}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="text-xs text-white/50 mb-1 block">Өнгө (хэрэгтэй бол сонгоно)</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {COLOR_OPTIONS.map((color) => (
+                <button
+                  key={color.name}
+                  type="button"
+                  onClick={() => {
+                    const colors = form.colors.includes(color.name)
+                      ? form.colors.filter((c) => c !== color.name)
+                      : [...form.colors, color.name];
+                    setForm({ ...form, colors });
+                  }}
+                  className={`flex items-center gap-2 h-9 px-3 rounded-lg text-sm font-medium border transition-all ${
+                    form.colors.includes(color.name)
+                      ? "bg-white/10 border-white text-white"
+                      : "border-white/15 text-white/50 hover:border-white/30"
+                  }`}
+                >
+                  <span
+                    className="w-4 h-4 rounded-full shrink-0 border border-white/20"
+                    style={{ backgroundColor: color.value }}
+                  />
+                  {color.name}
                 </button>
               ))}
             </div>

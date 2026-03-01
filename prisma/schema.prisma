@@ -23,6 +23,7 @@ model Product {
   comparePrice Float?
   images       String[]
   sizes        String[]    @default([])
+  colors       String[]    @default([])
   stock        Int         @default(0)
   categoryId   String
   category     Category    @relation(fields: [categoryId], references: [id])

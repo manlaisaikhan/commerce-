@@ -16,6 +16,7 @@ interface Product {
   comparePrice: number | null;
   images: string[];
   sizes: string[];
+  colors: string[];
   stock: number;
   category: { name: string; slug: string };
 }
@@ -28,8 +29,17 @@ interface ProductDetailProps {
 export function ProductDetail({ product, relatedProducts }: ProductDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
 
   const showSizes = product.sizes.length > 0;
+  const showColors = product.colors.length > 0;
+
+  const COLOR_MAP: Record<string, string> = {
+    "Хар": "#000000", "Цагаан": "#FFFFFF", "Улаан": "#EF4444",
+    "Хөх": "#3B82F6", "Ногоон": "#22C55E", "Шар": "#EAB308",
+    "Саарал": "#6B7280", "Бор": "#92400E", "Ягаан": "#EC4899",
+    "Нил ягаан": "#8B5CF6",
+  };
 
   return (
     <div className="pt-6 pb-20 animate-page-enter">
@@ -143,6 +153,31 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               <p className="text-sm text-white/50 leading-relaxed mb-8">
                 {product.description}
               </p>
+            )}
+
+            {showColors && (
+              <div className="mb-8">
+                <p className="text-sm font-semibold mb-3">Өнгө:</p>
+                <div className="flex flex-wrap gap-2">
+                  {product.colors.map((color) => (
+                    <button
+                      key={color}
+                      onClick={() => setSelectedColor(color)}
+                      className={`flex items-center gap-2 h-10 px-3 border text-sm font-medium transition-all duration-200 rounded-lg ${
+                        selectedColor === color
+                          ? "bg-white/10 border-white text-white"
+                          : "border-white/20 text-white/70 hover:border-white/50"
+                      }`}
+                    >
+                      <span
+                        className="w-4 h-4 rounded-full border border-white/20"
+                        style={{ backgroundColor: COLOR_MAP[color] || "#888" }}
+                      />
+                      {color}
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {showSizes && (

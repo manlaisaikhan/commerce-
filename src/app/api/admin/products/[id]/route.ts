@@ -13,7 +13,7 @@ export async function PATCH(
 
   const { id } = await params;
   const body = await req.json();
-  const { name, description, price, comparePrice, images, sizes, stock, categoryId, featured } = body;
+  const { name, description, price, comparePrice, images, sizes, colors, stock, categoryId, featured } = body;
 
   const data: Record<string, any> = {};
   if (name !== undefined) data.name = name;
@@ -22,6 +22,7 @@ export async function PATCH(
   if (comparePrice !== undefined) data.comparePrice = comparePrice ? parseFloat(comparePrice) : null;
   if (images !== undefined) data.images = images;
   if (sizes !== undefined) data.sizes = sizes;
+  if (colors !== undefined) data.colors = colors;
   if (stock !== undefined) data.stock = parseInt(stock);
   if (categoryId !== undefined) data.categoryId = categoryId;
   if (featured !== undefined) data.featured = featured;
