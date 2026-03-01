@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ShoppingBag, Minus, Plus, Trash2, ArrowRight, Check } from "lucide-react";
 import { useCartStore, itemKey } from "@/lib/store/cart-store";
@@ -9,14 +9,22 @@ import Link from "next/link";
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
   const items = useCartStore((s) => s.items);
-  const selectedTotal = useCartStore((s) => s.selectedTotal());
-  const selectedItems = useCartStore((s) => s.selectedItems());
+  const selected = useCartStore((s) => s.selected);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
   const clearCart = useCartStore((s) => s.clearCart);
   const toggleSelect = useCartStore((s) => s.toggleSelect);
   const selectAll = useCartStore((s) => s.selectAll);
-  const isSelected = useCartStore((s) => s.isSelected);
+
+  const selectedItems = useMemo(
+    () => items.filter((i) => selected.includes(itemKey(i))),
+    [items, selected]
+  );
+  const selectedTotal = useMemo(
+    () => selectedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+    [selectedItems]
+  );
+  const isSelected = (key: string) => selected.includes(key);
 
   useEffect(() => setMounted(true), []);
 

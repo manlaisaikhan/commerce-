@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useMemo } from "react";
 import { X, Plus, Minus, ShoppingBag, Check } from "lucide-react";
 import { useCartStore, itemKey } from "@/lib/store/cart-store";
 import { Button } from "@/components/ui/button";
@@ -13,12 +14,20 @@ interface CartSidebarProps {
 
 export function CartSidebar({ open, onClose }: CartSidebarProps) {
   const items = useCartStore((s) => s.items);
-  const selectedTotal = useCartStore((s) => s.selectedTotal());
-  const selectedItems = useCartStore((s) => s.selectedItems());
+  const selected = useCartStore((s) => s.selected);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
   const toggleSelect = useCartStore((s) => s.toggleSelect);
-  const isSelected = useCartStore((s) => s.isSelected);
+
+  const selectedItems = useMemo(
+    () => items.filter((i) => selected.includes(itemKey(i))),
+    [items, selected]
+  );
+  const selectedTotal = useMemo(
+    () => selectedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+    [selectedItems]
+  );
+  const isSelected = (key: string) => selected.includes(key);
 
   return (
     <AnimatePresence>

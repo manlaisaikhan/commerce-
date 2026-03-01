@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,19 @@ const DeliveryMap = dynamic(
 export function CheckoutForm() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
+  const selected = useCartStore((s) => s.selected);
   const clearCart = useCartStore((s) => s.clearCart);
-  const selectedItems = useCartStore((s) => s.selectedItems());
-  const selectedTotal = useCartStore((s) => s.selectedTotal());
   const toggleSelect = useCartStore((s) => s.toggleSelect);
-  const isSelected = useCartStore((s) => s.isSelected);
+
+  const selectedItems = useMemo(
+    () => items.filter((i) => selected.includes(itemKey(i))),
+    [items, selected]
+  );
+  const selectedTotal = useMemo(
+    () => selectedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+    [selectedItems]
+  );
+  const isSelected = (key: string) => selected.includes(key);
 
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
