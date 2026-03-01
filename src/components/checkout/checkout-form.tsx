@@ -47,7 +47,6 @@ export function CheckoutForm() {
     setLoading(true);
 
     try {
-      // Create order
       const orderRes = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,7 +72,6 @@ export function CheckoutForm() {
       setOrderId(order.id);
       clearCart();
 
-      // Create QPay invoice
       const qpayRes = await fetch("/api/qpay/invoice", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -150,7 +148,6 @@ export function CheckoutForm() {
         />
       </div>
 
-      {/* Order summary */}
       <div className="border-t border-border pt-6 space-y-3">
         {items.map((item) => (
           <div key={item.product.id} className="flex justify-between text-sm">

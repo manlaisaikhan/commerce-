@@ -4,24 +4,19 @@ export default function Loading() {
       <div className="max-w-2xl mx-auto">
         <div className="h-8 w-40 bg-white/5 rounded-lg mb-10" />
         <div className="space-y-6">
-          {/* Phone */}
           <div>
             <div className="h-3 w-28 bg-white/5 rounded mb-2" />
             <div className="h-12 rounded-lg bg-white/5" />
           </div>
-          {/* Map */}
           <div>
             <div className="h-3 w-32 bg-white/5 rounded mb-2" />
             <div className="h-48 rounded-lg bg-white/5" />
           </div>
-          {/* Address */}
           <div className="h-12 rounded-lg bg-white/5" />
-          {/* Note */}
           <div>
             <div className="h-3 w-24 bg-white/5 rounded mb-2" />
             <div className="h-20 rounded-lg bg-white/5" />
           </div>
-          {/* Order summary */}
           <div className="p-5 rounded-xl border border-white/10 bg-white/5">
             <div className="h-5 w-32 bg-white/10 rounded mb-4" />
             <div className="space-y-3">
@@ -38,7 +33,6 @@ export default function Loading() {
               <div className="h-5 w-24 bg-white/10 rounded" />
             </div>
           </div>
-          {/* Submit button */}
           <div className="h-14 rounded-lg bg-white/5" />
         </div>
       </div>

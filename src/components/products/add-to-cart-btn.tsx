@@ -50,7 +50,6 @@ export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
 
   return (
     <div className="space-y-4">
-      {/* Quantity selector */}
       <div className="flex items-center border border-white/20 rounded-lg w-fit">
         <button
           onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -69,7 +68,6 @@ export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
         </button>
       </div>
 
-      {/* Buttons row - mongolz.shop style */}
       <div className="flex gap-3">
         <button
           onClick={handleAdd}

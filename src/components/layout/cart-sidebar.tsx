@@ -21,7 +21,6 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
     <AnimatePresence>
       {open && (
         <>
-          {/* Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -30,7 +29,6 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
             className="fixed inset-0 bg-black/50 z-50"
           />
 
-          {/* Sidebar */}
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -38,7 +36,6 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed top-0 right-0 h-full w-full max-w-md bg-background border-l border-border z-50 flex flex-col"
           >
-            {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-border">
               <h2 className="text-lg font-semibold">Сагс</h2>
               <button onClick={onClose} className="p-1 hover:bg-muted rounded">
@@ -46,7 +43,6 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
               </button>
             </div>
 
-            {/* Items */}
             <div className="flex-1 overflow-y-auto p-6">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 text-muted-foreground">
@@ -126,7 +122,6 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
               )}
             </div>
 
-            {/* Footer */}
             {items.length > 0 && (
               <div className="p-6 border-t border-border space-y-4">
                 <div className="flex justify-between text-lg font-semibold">

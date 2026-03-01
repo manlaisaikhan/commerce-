@@ -61,12 +61,10 @@ export function Categories() {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.75, ease, delay: idx * 0.05 }}
             >
-              {/* Category header */}
               <Link
                 href={`/products?category=${section.slug}`}
                 className="group flex items-center gap-5 mb-8 w-fit"
               >
-                {/* Thumbnail */}
                 <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-[#161616] border border-white/8 shrink-0">
                   {section.products[0]?.images?.[0] ? (
                     <img
@@ -79,16 +77,13 @@ export function Categories() {
                   )}
                 </div>
 
-                {/* Name */}
                 <h2 className="text-xl sm:text-2xl font-semibold text-white group-hover:text-white/70 transition-colors duration-300 tracking-tight">
                   {section.name}
                 </h2>
               </Link>
 
-              {/* Divider */}
               <div className="h-px bg-white/8 mb-8" />
 
-              {/* Products grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
                 {section.products.slice(0, 4).map((product, pIdx) => (
                   <motion.div
@@ -99,7 +94,6 @@ export function Categories() {
                     transition={{ duration: 0.5, ease, delay: pIdx * 0.07 }}
                   >
                     <Link href={`/products/${product.slug}`} className="group block">
-                      {/* Image card */}
                       <div className="aspect-square rounded-2xl overflow-hidden bg-[#d8d8d8] mb-3 relative">
                         {product.images?.[0] ? (
                           <img
@@ -112,7 +106,6 @@ export function Categories() {
                         )}
                       </div>
 
-                      {/* Info */}
                       <p className="text-white/85 text-sm font-medium leading-snug mb-0.5 truncate">
                         {product.name}
                       </p>
@@ -124,7 +117,6 @@ export function Categories() {
                 ))}
               </div>
 
-              {/* View all link */}
               <div className="mt-6">
                 <Link
                   href={`/products?category=${section.slug}`}

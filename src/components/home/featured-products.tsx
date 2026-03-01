@@ -45,7 +45,6 @@ export function FeaturedProducts() {
   return (
     <section className="py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        {/* Product Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"

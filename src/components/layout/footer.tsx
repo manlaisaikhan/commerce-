@@ -15,7 +15,7 @@ export function Footer() {
 
   return (
     <footer className="bg-black border-t border-white/10">
-      {/* Info Section - like mongolz.shop */}
+
       <div className="border-b border-white/10">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -59,10 +59,8 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Main Footer */}
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Brand */}
           <div>
             <AuronLogo className="h-7 w-auto mb-4" />
             <p className="text-white/50 text-sm leading-relaxed">
@@ -70,7 +68,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Links */}
           <div>
             <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">
               Туслах цэс
@@ -123,7 +120,6 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom */}
       <div className="border-t border-white/10">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">

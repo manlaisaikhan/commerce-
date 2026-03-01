@@ -1,9 +1,7 @@
 export default function Loading() {
   return (
     <div className="animate-pulse">
-      {/* Hero skeleton */}
       <div className="h-[70vh] bg-white/5 rounded-b-3xl" />
-      {/* Featured section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="h-8 w-48 bg-white/5 rounded-lg mb-8" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

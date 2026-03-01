@@ -36,7 +36,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
   return (
     <div className="pt-6 pb-20 animate-page-enter">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-white/40 mb-8">
           <Link href="/products" className="hover:text-white transition-colors">Бүгд</Link>
           <ChevronRight size={14} />
@@ -48,16 +47,13 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
           </Link>
         </div>
 
-        {/* Product layout - mongolz.shop style */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-          {/* Left - Image gallery with thumbnails */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="flex gap-4"
           >
-            {/* Thumbnails - vertical strip */}
             {product.images.length > 1 && (
               <div className="hidden sm:flex flex-col gap-2 w-20 shrink-0">
                 {product.images.map((img, i) => (
@@ -76,7 +72,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </div>
             )}
 
-            {/* Main image */}
             <div className="flex-1 relative">
               <div className="relative aspect-square rounded-xl overflow-hidden bg-[#e8e8e8] dark:bg-[#1a1a1a]">
                 <AnimatePresence mode="wait">
@@ -102,13 +97,11 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Zoom button */}
                 <button className="absolute bottom-4 left-4 w-10 h-10 bg-black/60 backdrop-blur rounded-full flex items-center justify-center text-white/70 hover:text-white transition-colors">
                   <ZoomIn size={18} />
                 </button>
               </div>
 
-              {/* Mobile thumbnail dots */}
               {product.images.length > 1 && (
                 <div className="flex sm:hidden justify-center gap-2 mt-4">
                   {product.images.map((_, i) => (
@@ -125,14 +118,12 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
             </div>
           </motion.div>
 
-          {/* Right - Product info */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             className="flex flex-col"
           >
-            {/* Name & Share */}
             <div className="flex items-start justify-between gap-4 mb-2">
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                 {product.name}
@@ -142,7 +133,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </button>
             </div>
 
-            {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
               <span className="text-2xl sm:text-3xl font-bold">
                 {product.price.toLocaleString()}₮
@@ -154,7 +144,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               )}
             </div>
 
-            {/* Description */}
             {product.description && (
               <p className="text-sm text-white/50 leading-relaxed mb-8">
                 {product.description}
@@ -182,7 +171,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               </div>
             )}
 
-            {/* Quantity & Add to cart */}
             <AddToCartBtn
               product={{
                 id: product.id,
@@ -195,7 +183,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               selectedSize={selectedSize}
             />
 
-            {/* Delivery info */}
             {product.stock > 0 && (
               <div className="mt-6 flex items-center gap-2 text-sm text-white/40">
                 <span>🚚</span>
@@ -205,7 +192,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
           </motion.div>
         </div>
 
-        {/* Related products */}
         {relatedProducts.length > 0 && (
           <div className="mt-24">
             <div className="flex items-center justify-between mb-8">

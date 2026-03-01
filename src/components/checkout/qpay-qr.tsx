@@ -42,7 +42,6 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
   const handleConfirm = async () => {
     setConfirming(true);
     try {
-      // Try status check first
       const statusRes = await fetch(`/api/qpay/status?orderId=${orderId}`);
       const statusData = await statusRes.json();
       if (statusData.paid) {
@@ -50,7 +49,6 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
         setTimeout(onSuccess, 1500);
         return;
       }
-      // Manually confirm via callback
       const res = await fetch(`/api/qpay/callback?orderId=${orderId}`, {
         method: "POST",
       });
@@ -94,7 +92,6 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
         <p className="text-2xl font-bold">{amount.toLocaleString()}₮</p>
       </div>
 
-      {/* QR Code */}
       {qrImage ? (
         <div className="bg-white p-6 rounded-2xl">
           <img
@@ -109,7 +106,6 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
         </div>
       )}
 
-      {/* Bank links */}
       {urls.length > 0 && (
         <div className="w-full">
           <p className="text-sm text-muted-foreground text-center mb-3">
@@ -134,7 +130,6 @@ export function QPayQR({ orderId, qrImage, urls, amount, onSuccess }: QPayQRProp
         </div>
       )}
 
-      {/* Status */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Loader2 size={14} className="animate-spin" />
         <span>{status === "checking" ? "Шалгаж байна..." : "Төлбөр хүлээж байна..."}</span>

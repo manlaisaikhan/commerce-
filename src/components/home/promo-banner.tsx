@@ -17,7 +17,6 @@ export function PromoBanner() {
           transition={{ duration: 0.8, ease }}
           className="relative overflow-hidden rounded-3xl"
         >
-          {/* Background layers */}
           <div className="absolute inset-0 bg-linear-to-br from-[#0a0a1e] via-[#10103a] to-[#0f0f2e]" />
           <div
             className="absolute inset-0 bg-cover bg-center opacity-15"
@@ -33,7 +32,6 @@ export function PromoBanner() {
           />
 
           <div className="relative z-10 flex items-center">
-            {/* Left: text */}
             <div className="flex-1 px-10 sm:px-16 py-16 sm:py-24">
               <motion.p
                 initial={{ opacity: 0, x: -30 }}
@@ -85,7 +83,6 @@ export function PromoBanner() {
               </motion.div>
             </div>
 
-            {/* Right: large decorative number */}
             <div className="hidden md:flex items-center justify-center pr-16 shrink-0">
               <motion.div
                 initial={{ opacity: 0, scale: 0.7, x: 40 }}

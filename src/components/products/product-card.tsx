@@ -47,7 +47,6 @@ export function ProductCard3D({ product }: ProductCardProps) {
 
   return (
     <Link href={`/products/${product.id}`} className="group block">
-      {/* Image container */}
       <div className="relative overflow-hidden rounded-xl bg-[#1a1a1a]">
         <div className="relative aspect-square overflow-hidden">
           {product.image ? (
@@ -63,10 +62,8 @@ export function ProductCard3D({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Dark overlay on hover for text contrast */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
 
-          {/* Out of stock */}
           {isOutOfStock && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-[1px]">
               <span className="bg-black/80 border border-white/20 text-white text-xs font-semibold px-4 py-1.5 rounded-full tracking-wider uppercase">
@@ -75,7 +72,6 @@ export function ProductCard3D({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Discount badge */}
           {discountPct && (
             <div className="absolute top-3 left-3">
               <span className="bg-red-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
@@ -84,7 +80,6 @@ export function ProductCard3D({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Quick add */}
           {!isOutOfStock && (
             <button
               onClick={handleAddToCart}
@@ -97,7 +92,6 @@ export function ProductCard3D({ product }: ProductCardProps) {
         </div>
       </div>
 
-      {/* Product info */}
       <div className="mt-3 space-y-1">
         {product.category && (
           <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] font-medium">

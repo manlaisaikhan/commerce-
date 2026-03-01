@@ -43,7 +43,6 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
 
   return (
     <aside className="hidden md:block w-[220px] shrink-0">
-      {/* Search */}
       <form onSubmit={handleSearch} className="relative mb-8">
         <input
           value={search}
@@ -59,7 +58,6 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
         </button>
       </form>
 
-      {/* Categories */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider">Ангилал</h3>
@@ -102,7 +100,6 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
         </ul>
       </div>
 
-      {/* Other filters */}
       <div>
         <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Бусад</h3>
         <ul className="space-y-2">

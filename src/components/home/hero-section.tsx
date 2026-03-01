@@ -22,7 +22,6 @@ export function HeroSection() {
   return (
     <section className="relative w-full h-[45vh] sm:h-[55vh] lg:h-[70vh] min-h-72 overflow-hidden">
 
-      {/* Images */}
       {slides.map((s, i) => (
         <motion.div
           key={i}
@@ -35,10 +34,8 @@ export function HeroSection() {
         </motion.div>
       ))}
 
-      {/* Subtle bottom fade */}
       <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-black to-transparent" />
 
-      {/* Slide dots — bottom center */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-10">
         {slides.map((_, i) => (
           <button
@@ -53,7 +50,6 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Slide number — top right */}
       <div className="absolute top-5 right-6 z-10 hidden sm:flex items-center gap-2">
         <motion.span
           key={current}

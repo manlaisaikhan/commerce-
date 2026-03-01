@@ -33,7 +33,6 @@ export function UserMenu() {
 
   return (
     <div ref={ref} className="relative">
-      {/* Trigger */}
       <button
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 pl-0.5 pr-2 py-0.5 rounded-full hover:bg-white/8 transition-all group"
@@ -53,7 +52,6 @@ export function UserMenu() {
         />
       </button>
 
-      {/* Dropdown */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -63,7 +61,6 @@ export function UserMenu() {
             transition={{ duration: 0.14, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="absolute right-0 top-full mt-2.5 w-60 rounded-2xl border border-white/10 bg-[#0e0e0e] shadow-2xl shadow-black/70 overflow-hidden z-50"
           >
-            {/* Header — user info */}
             <div className="px-4 pt-4 pb-3 flex items-center gap-3 border-b border-white/6">
               <div className="w-10 h-10 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0">
                 {user.imageUrl ? (
@@ -80,7 +77,6 @@ export function UserMenu() {
               </div>
             </div>
 
-            {/* Nav links */}
             <div className="p-1.5 border-b border-white/6">
               <Link
                 href="/orders"
@@ -99,7 +95,6 @@ export function UserMenu() {
               </button>
             </div>
 
-            {/* Sign out */}
             <div className="p-1.5">
               <button
                 onClick={() => signOut({ redirectUrl: "/" })}

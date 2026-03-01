@@ -218,7 +218,6 @@ export default function AdminOrdersPage() {
         </button>
       </div>
 
-      {/* Status filter */}
       <div className="flex gap-2 flex-wrap">
         {statusOptions.map((opt) => (
           <button
@@ -261,17 +260,14 @@ export default function AdminOrdersPage() {
                 key={order.id}
                 className={`rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden border-l-4 ${borderClass}`}
               >
-                {/* Collapsed row */}
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : order.id)}
                   className="w-full px-4 py-3.5 flex items-center gap-4 text-left hover:bg-white/5 transition-colors"
                 >
-                  {/* Icon */}
                   <div className="shrink-0 w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center">
                     <ShoppingBag size={16} className="text-white/40" />
                   </div>
 
-                  {/* Left: ID + date */}
                   <div className="min-w-[110px]">
                     <p className="font-mono text-sm font-medium">#{order.id.slice(-8)}</p>
                     <p className="text-[11px] text-white/30 mt-0.5">
@@ -279,7 +275,6 @@ export default function AdminOrdersPage() {
                     </p>
                   </div>
 
-                  {/* Center: phone + item count */}
                   <div className="flex-1 hidden sm:block">
                     <p className="text-sm text-white/80">{order.phone || "—"}</p>
                     <p className="text-[11px] text-white/30 mt-0.5">
@@ -287,7 +282,6 @@ export default function AdminOrdersPage() {
                     </p>
                   </div>
 
-                  {/* Right: badge + total + chevron */}
                   <div className="flex items-center gap-3 ml-auto">
                     <span className={`hidden sm:inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 rounded-full ${statusColors[order.status] || ""}`}>
                       {statusIcons[order.status]}
@@ -303,10 +297,8 @@ export default function AdminOrdersPage() {
                   </div>
                 </button>
 
-                {/* Expanded details */}
                 {isExpanded && (
                   <div className="border-t border-white/10 px-4 py-4 space-y-5">
-                    {/* Info grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="flex items-start gap-2">
                         <Phone size={13} className="text-white/30 mt-0.5 shrink-0" />
@@ -371,7 +363,6 @@ export default function AdminOrdersPage() {
                       </div>
                     </div>
 
-                    {/* Status change */}
                     <div>
                       <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Төлөв өөрчлөх</p>
                       <div className="flex gap-2 flex-wrap">
@@ -497,7 +488,6 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
-              {/* Product search */}
               <div className="space-y-3">
                 <p className="text-[10px] text-white/30 uppercase tracking-wider">Бараа нэмэх</p>
                 <div className="relative">
@@ -540,7 +530,6 @@ export default function AdminOrdersPage() {
                             Нэмэх
                           </button>
                         </div>
-                        {/* Size buttons */}
                         <div className="flex gap-1 mt-2 ml-13">
                           {["S","M","L","XL","2XL"].map((s) => (
                             <button
@@ -559,7 +548,6 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
-              {/* Selected items */}
               {orderItems.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-[10px] text-white/30 uppercase tracking-wider">Сонгосон бараанууд</p>
@@ -622,7 +610,6 @@ export default function AdminOrdersPage() {
             </form>
           </ScrollArea>
 
-          {/* Sheet footer */}
           <div className="px-6 py-4 border-t border-white/10 flex gap-3 shrink-0">
             <button
               type="submit"

@@ -8,13 +8,11 @@ export default function Loading() {
         </div>
         <div className="h-10 w-32 bg-white/5 rounded-lg" />
       </div>
-      {/* Filters */}
       <div className="flex gap-2">
         {[1, 2, 3, 4, 5].map((i) => (
           <div key={i} className="h-9 w-24 rounded-lg bg-white/5" />
         ))}
       </div>
-      {/* Order cards */}
       <div className="space-y-3">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="p-4 rounded-xl border border-white/10 bg-white/5">

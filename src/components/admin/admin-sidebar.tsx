@@ -81,12 +81,10 @@ export function AdminSidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close drawer on route change
   useEffect(() => { setOpen(false); }, [pathname]);
 
   return (
     <>
-      {/* Mobile top bar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-[#0a0a0a] border-b border-white/10 flex items-center gap-3 px-4 z-40">
         <button
           onClick={() => setOpen(true)}
@@ -97,16 +95,13 @@ export function AdminSidebar() {
         <span className="font-bold text-sm tracking-tight">ADMIN</span>
       </div>
 
-      {/* Desktop sidebar — always visible */}
       <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 w-60 bg-[#0a0a0a] border-r border-white/10 flex-col z-40">
         <SidebarNav />
       </aside>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {open && (
           <>
-            {/* Backdrop */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -116,7 +111,6 @@ export function AdminSidebar() {
               onClick={() => setOpen(false)}
               className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
             />
-            {/* Drawer */}
             <motion.aside
               key="drawer"
               initial={{ x: -240 }}

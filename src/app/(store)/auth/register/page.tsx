@@ -89,18 +89,15 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left — Dark form panel */}
       <div className="flex-1 lg:w-[480px] lg:flex-none flex items-center justify-center px-8 lg:px-14 bg-[#080808]">
         <div className="w-full max-w-sm py-12">
 
-          {/* Logo */}
           <Link href="/" className="flex items-center mb-14">
             <AuronLogo className="h-9 w-auto" />
           </Link>
 
           {step === "form" ? (
             <>
-              {/* Header */}
               <div className="mb-10">
                 <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Бүртгүүлэх</h1>
                 <p className="text-sm text-white/40">
@@ -168,7 +165,6 @@ export default function RegisterPage() {
                 </button>
               </form>
 
-              {/* Divider */}
               <div className="relative my-7">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-white/6" />
@@ -193,7 +189,6 @@ export default function RegisterPage() {
             </>
           ) : (
             <>
-              {/* Verify step */}
               <div className="mb-10">
                 <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Код оруулах</h1>
                 <p className="text-sm text-white/40">
@@ -244,7 +239,6 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Right — Spline 3D */}
       <div className="hidden lg:block flex-1 relative overflow-hidden">
         <SplineScene />
         <div className="absolute inset-0 bg-black/25" />

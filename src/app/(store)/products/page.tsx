@@ -85,14 +85,11 @@ export default async function ProductsPage({
     <div className="pt-8 pb-16 animate-page-enter">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex gap-8">
-          {/* Sidebar Filters */}
           <Suspense>
             <ProductFilters categories={categories} />
           </Suspense>
 
-          {/* Products */}
           <div className="flex-1 min-w-0">
-            {/* Top bar with sort */}
             <div className="flex items-center justify-between mb-6">
               <h1 className="text-lg sm:text-xl font-semibold">
                 {currentCategory ? currentCategory.name : "Бүх бүтээгдэхүүн"}

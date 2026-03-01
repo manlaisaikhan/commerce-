@@ -85,7 +85,6 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "ID is required" }, { status: 400 });
   }
 
-  // Cascade: delete cart items → order items → products → category
   const products = await prisma.product.findMany({
     where: { categoryId: id },
     select: { id: true },

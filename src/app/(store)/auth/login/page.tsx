@@ -26,7 +26,6 @@ export default function LoginPage() {
     const params = new URLSearchParams(window.location.search);
     const fromQuery = params.get("redirect_url");
     if (fromQuery) return fromQuery;
-    // Clerk's SignInButton uses hash params: #/?redirect_url=...
     const hash = window.location.hash;
     if (hash.startsWith("#/")) {
       const hashParams = new URLSearchParams(hash.slice(2));
@@ -71,16 +70,13 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left — Dark form panel */}
       <div className="flex-1 lg:w-[480px] lg:flex-none flex items-center justify-center px-8 lg:px-14 bg-[#080808]">
         <div className="w-full max-w-sm py-12">
 
-          {/* Logo */}
           <Link href="/" className="flex items-center mb-14">
             <AuronLogo className="h-9 w-auto" />
           </Link>
 
-          {/* Header */}
           <div className="mb-10">
             <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Тавтай морил</h1>
             <p className="text-sm text-white/40">
@@ -91,7 +87,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <div className="px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-sm text-red-400">
@@ -146,7 +141,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="relative my-7">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-white/6" />
@@ -156,7 +150,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Google */}
           <button
             onClick={handleGoogle}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-white/8 bg-white/4 hover:bg-white/8 transition-colors text-sm font-medium text-white/70 hover:text-white"
@@ -172,11 +165,9 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right — Spline 3D */}
       <div className="hidden lg:block flex-1 relative overflow-hidden">
         <SplineScene />
         <div className="absolute inset-0 bg-black/30" />
-        {/* Subtle left edge fade */}
         <div className="absolute inset-y-0 left-0 w-16 bg-linear-to-r from-[#080808] to-transparent" />
       </div>
     </div>
