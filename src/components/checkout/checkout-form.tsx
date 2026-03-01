@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useCartStore } from "@/lib/store/cart-store";
+import { useCartStore, itemKey } from "@/lib/store/cart-store";
 import { Loader2, Check } from "lucide-react";
 import { toast } from "sonner";
 import { QPayQR } from "./qpay-qr";
@@ -20,13 +20,14 @@ export function CheckoutForm() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
+  const selectedItems = useCartStore((s) => s.selectedItems());
+  const selectedTotal = useCartStore((s) => s.selectedTotal());
+  const toggleSelect = useCartStore((s) => s.toggleSelect);
+  const isSelected = useCartStore((s) => s.isSelected);
 
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [note, setNote] = useState("");
-  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(() =>
-    new Set(items.map((i) => i.product.id + (i.size || "")))
-  );
 
   const handleLocationSelect = useCallback((_lat: number, _lng: number, addr: string) => {
     setAddress(addr);
@@ -37,25 +38,6 @@ export function CheckoutForm() {
     qrImage: string;
     urls: Array<{ name: string; logo: string; link: string }>;
   } | null>(null);
-
-  const toggleItem = (key: string) => {
-    setSelectedKeys((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
-
-  const selectedItems = useMemo(
-    () => items.filter((i) => selectedKeys.has(i.product.id + (i.size || ""))),
-    [items, selectedKeys]
-  );
-
-  const selectedTotal = useMemo(
-    () => selectedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
-    [selectedItems]
-  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,13 +120,13 @@ export function CheckoutForm() {
         </div>
         <div className="divide-y divide-white/5">
           {items.map((item) => {
-            const key = item.product.id + (item.size || "");
-            const checked = selectedKeys.has(key);
+            const key = itemKey(item);
+            const checked = isSelected(key);
             return (
               <button
                 key={key}
                 type="button"
-                onClick={() => toggleItem(key)}
+                onClick={() => toggleSelect(key)}
                 className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left ${
                   checked ? "bg-violet-500/5" : "opacity-40"
                 }`}
