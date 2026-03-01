@@ -184,9 +184,15 @@ export default function AdminProductsPage() {
               <label className="text-xs text-white/50 mb-1 block">Тоо ширхэг</label>
               <input type="number" value={form.stock} onChange={(e) => setForm({ ...form, stock: e.target.value })} className="w-full bg-black border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/30" />
             </div>
-            <div className="flex items-center gap-2 pt-6">
-              <input type="checkbox" id="featured" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} className="rounded" />
-              <label htmlFor="featured" className="text-sm text-white/70">Онцлох</label>
+            <div className="flex flex-col gap-3 pt-6">
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="featured" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} className="rounded" />
+                <label htmlFor="featured" className="text-sm text-white/70">Онцлох</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="outOfStock" checked={form.stock === "0"} onChange={(e) => setForm({ ...form, stock: e.target.checked ? "0" : "10" })} className="rounded accent-red-500" />
+                <label htmlFor="outOfStock" className="text-sm text-red-400">Дууссан</label>
+              </div>
             </div>
           </div>
           <div>
@@ -267,7 +273,11 @@ export default function AdminProductsPage() {
                   <td className="px-4 py-3 text-white/50">{p.category.name}</td>
                   <td className="px-4 py-3 text-right">{p.price.toLocaleString()}₮</td>
                   <td className="px-4 py-3 text-right">
-                    <span className={p.stock === 0 ? "text-red-400" : ""}>{p.stock}</span>
+                    {p.stock === 0 ? (
+                      <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-medium">Дууссан</span>
+                    ) : (
+                      <span>{p.stock}</span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">

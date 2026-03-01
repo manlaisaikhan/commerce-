@@ -9,6 +9,9 @@ import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import dynamic from "next/dynamic";
+
+const DeliveryMap = dynamic(() => import("@/components/checkout/delivery-map").then((m) => ({ default: m.DeliveryMap })), { ssr: false });
 
 interface Order {
   id: string;
@@ -452,6 +455,9 @@ export default function AdminOrdersPage() {
 
                 <div>
                   <label className="text-xs text-white/50 mb-1.5 block">Хүргэлтийн хаяг</label>
+                  <div className="rounded-lg overflow-hidden border border-white/10 mb-2">
+                    <DeliveryMap onLocationSelect={(_lat, _lng, addr) => setCreateAddress(addr)} />
+                  </div>
                   <div className="relative">
                     <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
                     <input

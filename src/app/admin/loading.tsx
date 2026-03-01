@@ -1,7 +1,25 @@
 export default function Loading() {
   return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="w-8 h-8 border-2 border-white/10 border-t-violet-500 rounded-full animate-spin" />
+    <div className="space-y-6 animate-pulse">
+      <div className="h-8 w-40 bg-white/5 rounded-lg" />
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="p-5 rounded-xl border border-white/10 bg-white/5">
+            <div className="h-3 w-20 bg-white/10 rounded mb-3" />
+            <div className="h-7 w-16 bg-white/10 rounded" />
+          </div>
+        ))}
+      </div>
+      {/* Recent orders */}
+      <div className="p-5 rounded-xl border border-white/10 bg-white/5">
+        <div className="h-5 w-36 bg-white/10 rounded mb-4" />
+        <div className="space-y-3">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="h-12 rounded-lg bg-white/10" />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
