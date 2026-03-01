@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 const slides = [
+  { image: "https://i.pinimg.com/1200x/92/50/7a/92507adbd88b6e5d07283c603e00e003.jpg" },
+  { image: "https://i.pinimg.com/1200x/20/b3/3e/20b33ef326faa03a1fa82dab6bf1f91d.jpg" },
   { image: "https://i.pinimg.com/1200x/b7/e9/84/b7e9843e7be5b9421a0d9d3ed780557e.jpg" },
   { image: "https://i.pinimg.com/736x/a9/44/04/a9440441964c4adad84f59d05227a720.jpg" },
   { image: "https://i.pinimg.com/736x/b7/68/2e/b7682e2fddfb18e6135f6a8b17bb5a5c.jpg" },
