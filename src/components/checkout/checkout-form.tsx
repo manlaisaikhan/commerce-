@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +10,11 @@ import { useCartStore } from "@/lib/store/cart-store";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { QPayQR } from "./qpay-qr";
+
+const DeliveryMap = dynamic(
+  () => import("./delivery-map").then((m) => ({ default: m.DeliveryMap })),
+  { ssr: false, loading: () => <div className="w-full h-[280px] sm:h-[320px] rounded-xl bg-[#111] animate-pulse" /> }
+);
 
 export function CheckoutForm() {
   const router = useRouter();
@@ -19,6 +25,10 @@ export function CheckoutForm() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [note, setNote] = useState("");
+
+  const handleLocationSelect = useCallback((_lat: number, _lng: number, addr: string) => {
+    setAddress(addr);
+  }, []);
   const [loading, setLoading] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [qpayData, setQpayData] = useState<{
@@ -113,26 +123,29 @@ export function CheckoutForm() {
         />
       </div>
 
+      <DeliveryMap onLocationSelect={handleLocationSelect} />
+
       <div className="space-y-2">
         <Label htmlFor="address">Хүргэлтийн хаяг</Label>
         <Input
           id="address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
-          placeholder="Дүүрэг, хороо, байр, тоот"
+          placeholder="Газрын зураг дээр сонгох эсвэл гараар бичих"
           required
           className="h-12 rounded-xl bg-card/50"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="note">Нэмэлт тэмдэглэл</Label>
-        <Input
+        <Label htmlFor="note">Нэмэлт мэдээлэл</Label>
+        <textarea
           id="note"
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Нэмэлт мэдээлэл (заавал биш)"
-          className="h-12 rounded-xl bg-card/50"
+          placeholder="Орцны код, давхар, нэмэлт чиглүүлэг гэх мэт..."
+          rows={3}
+          className="w-full px-4 py-3 rounded-xl border border-input bg-card/50 text-sm focus:outline-none focus:ring-1 focus:ring-ring resize-none"
         />
       </div>
 
