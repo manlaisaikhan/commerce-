@@ -84,17 +84,6 @@ export default async function ProductsPage({
   return (
     <div className="pt-8 pb-16 animate-page-enter">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-white/40 mb-8">
-          <span>Бүтээгдэхүүн</span>
-          {currentCategory && (
-            <>
-              <span>/</span>
-              <span className="text-white font-medium">{currentCategory.name}</span>
-            </>
-          )}
-        </div>
-
         <div className="flex gap-8">
           {/* Sidebar Filters */}
           <Suspense>
