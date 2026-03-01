@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCartStore } from "@/lib/store/cart-store";
-import { Loader2 } from "lucide-react";
+import { Loader2, Check } from "lucide-react";
 import { toast } from "sonner";
 import { QPayQR } from "./qpay-qr";
 
@@ -19,12 +19,14 @@ const DeliveryMap = dynamic(
 export function CheckoutForm() {
   const router = useRouter();
   const items = useCartStore((s) => s.items);
-  const total = useCartStore((s) => s.total());
   const clearCart = useCartStore((s) => s.clearCart);
 
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [note, setNote] = useState("");
+  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(() =>
+    new Set(items.map((i) => i.product.id + (i.size || "")))
+  );
 
   const handleLocationSelect = useCallback((_lat: number, _lng: number, addr: string) => {
     setAddress(addr);
@@ -36,11 +38,30 @@ export function CheckoutForm() {
     urls: Array<{ name: string; logo: string; link: string }>;
   } | null>(null);
 
+  const toggleItem = (key: string) => {
+    setSelectedKeys((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const selectedItems = useMemo(
+    () => items.filter((i) => selectedKeys.has(i.product.id + (i.size || ""))),
+    [items, selectedKeys]
+  );
+
+  const selectedTotal = useMemo(
+    () => selectedItems.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+    [selectedItems]
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (items.length === 0) {
-      toast.error("Сагс хоосон байна");
+    if (selectedItems.length === 0) {
+      toast.error("Бараа сонгоно уу");
       return;
     }
 
@@ -51,7 +72,7 @@ export function CheckoutForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((i) => ({
+          items: selectedItems.map((i) => ({
             productId: i.product.id,
             quantity: i.quantity,
             size: i.size,
@@ -102,7 +123,7 @@ export function CheckoutForm() {
         orderId={orderId}
         qrImage={qpayData?.qrImage ?? ""}
         urls={qpayData?.urls ?? []}
-        amount={total}
+        amount={selectedTotal}
         onSuccess={handlePaymentSuccess}
       />
     );
@@ -110,6 +131,59 @@ export function CheckoutForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="border border-border rounded-2xl overflow-hidden">
+        <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+          <p className="text-sm font-medium text-white/70">Захиалах бараа</p>
+          <p className="text-xs text-white/30">{selectedItems.length}/{items.length} сонгосон</p>
+        </div>
+        <div className="divide-y divide-white/5">
+          {items.map((item) => {
+            const key = item.product.id + (item.size || "");
+            const checked = selectedKeys.has(key);
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => toggleItem(key)}
+                className={`w-full flex items-center gap-3 px-4 py-3 transition-all text-left ${
+                  checked ? "bg-violet-500/5" : "opacity-40"
+                }`}
+              >
+                <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${
+                  checked ? "bg-violet-500 border-violet-500" : "border-white/20"
+                }`}>
+                  {checked && <Check size={12} className="text-white" />}
+                </div>
+
+                {item.product.image && (
+                  <img src={item.product.image} alt="" className="w-10 h-10 rounded-lg object-cover shrink-0" />
+                )}
+
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">
+                    {item.product.name}
+                    {item.size && (
+                      <span className="ml-1.5 text-[10px] bg-violet-500/20 text-violet-300 px-1.5 py-0.5 rounded font-medium">
+                        {item.size}
+                      </span>
+                    )}
+                  </p>
+                  <p className="text-xs text-white/40">x{item.quantity}</p>
+                </div>
+
+                <span className="text-sm font-semibold tabular-nums shrink-0">
+                  {(item.product.price * item.quantity).toLocaleString()}₮
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="px-4 py-3 border-t border-border flex justify-between font-bold">
+          <span>Нийт</span>
+          <span>{selectedTotal.toLocaleString()}₮</span>
+        </div>
+      </div>
+
       <div className="space-y-2">
         <Label htmlFor="phone">Утасны дугаар</Label>
         <Input
@@ -148,24 +222,9 @@ export function CheckoutForm() {
         />
       </div>
 
-      <div className="border-t border-border pt-6 space-y-3">
-        {items.map((item) => (
-          <div key={item.product.id} className="flex justify-between text-sm">
-            <span className="text-muted-foreground">
-              {item.product.name}{item.size && ` (${item.size})`} x{item.quantity}
-            </span>
-            <span>{(item.product.price * item.quantity).toLocaleString()}₮</span>
-          </div>
-        ))}
-        <div className="flex justify-between text-lg font-bold pt-3 border-t border-border">
-          <span>Нийт</span>
-          <span>{total.toLocaleString()}₮</span>
-        </div>
-      </div>
-
       <Button
         type="submit"
-        disabled={loading || items.length === 0}
+        disabled={loading || selectedItems.length === 0}
         className="w-full h-14 text-base rounded-xl"
       >
         {loading ? (
@@ -173,8 +232,10 @@ export function CheckoutForm() {
             <Loader2 size={18} className="animate-spin" />
             Захиалга үүсгэж байна...
           </span>
+        ) : selectedItems.length === 0 ? (
+          "Бараа сонгоно уу"
         ) : (
-          `${total.toLocaleString()}₮ - QPay-ээр төлөх`
+          `${selectedTotal.toLocaleString()}₮ - QPay-ээр төлөх`
         )}
       </Button>
     </form>
