@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Share2, ChevronRight } from "lucide-react";
+import { ShoppingBag, Share2, ChevronRight, Check } from "lucide-react";
+import { toast } from "sonner";
 import Link from "next/link";
 import { AddToCartBtn } from "@/components/products/add-to-cart-btn";
 import { ProductCard3D } from "@/components/products/product-card";
@@ -133,7 +134,20 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                 {product.name}
               </h1>
-              <button className="shrink-0 p-2 text-white/40 hover:text-white transition-colors">
+              <button
+                onClick={async () => {
+                  const url = window.location.href;
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({ title: product.name, url });
+                    } catch {}
+                  } else {
+                    await navigator.clipboard.writeText(url);
+                    toast.success("Линк хуулагдлаа");
+                  }
+                }}
+                className="shrink-0 p-2 text-white/40 hover:text-white transition-colors"
+              >
                 <Share2 size={20} />
               </button>
             </div>

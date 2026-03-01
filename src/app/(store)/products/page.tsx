@@ -2,8 +2,12 @@ import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { ProductGrid } from "@/components/products/product-grid";
 import { ProductFilters } from "@/components/products/product-filters";
+import { SortSelect } from "@/components/products/sort-select";
+import { Pagination } from "@/components/products/pagination";
 
 import { Skeleton } from "@/components/ui/skeleton";
+
+const PER_PAGE = 24;
 
 interface SearchParams {
   category?: string;
@@ -36,14 +40,20 @@ async function getProducts(searchParams: SearchParams) {
   if (searchParams.sort === "price_desc") orderBy = { price: "desc" };
   if (searchParams.sort === "name") orderBy = { name: "asc" };
 
-  const products = await prisma.product.findMany({
-    where,
-    include: { category: true },
-    orderBy,
-    take: 24,
-  });
+  const page = Math.max(1, parseInt(searchParams.page || "1"));
 
-  return products;
+  const [products, total] = await Promise.all([
+    prisma.product.findMany({
+      where,
+      include: { category: true },
+      orderBy,
+      skip: (page - 1) * PER_PAGE,
+      take: PER_PAGE,
+    }),
+    prisma.product.count({ where }),
+  ]);
+
+  return { products, total, totalPages: Math.ceil(total / PER_PAGE), page };
 }
 
 async function getCategories() {
@@ -74,7 +84,7 @@ export default async function ProductsPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const [products, categories] = await Promise.all([
+  const [{ products, total, totalPages, page }, categories] = await Promise.all([
     getProducts(params),
     getCategories(),
   ]);
@@ -91,14 +101,26 @@ export default async function ProductsPage({
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-6">
-              <h1 className="text-lg sm:text-xl font-semibold">
-                {currentCategory ? currentCategory.name : "Бүх бүтээгдэхүүн"}
-              </h1>
+              <div>
+                <h1 className="text-lg sm:text-xl font-semibold">
+                  {currentCategory ? currentCategory.name : "Бүх бүтээгдэхүүн"}
+                </h1>
+                <p className="text-xs text-white/30 mt-1">{total} бүтээгдэхүүн</p>
+              </div>
+              <Suspense>
+                <SortSelect />
+              </Suspense>
             </div>
 
             <Suspense fallback={<ProductsSkeleton />}>
               <ProductGrid products={products} />
             </Suspense>
+
+            {totalPages > 1 && (
+              <Suspense>
+                <Pagination currentPage={page} totalPages={totalPages} />
+              </Suspense>
+            )}
           </div>
         </div>
       </div>
