@@ -8,7 +8,6 @@ import {
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import dynamic from "next/dynamic";
 
 const DeliveryMap = dynamic(() => import("@/components/checkout/delivery-map").then((m) => ({ default: m.DeliveryMap })), { ssr: false });
@@ -415,7 +414,7 @@ export default function AdminOrdersPage() {
       <Sheet open={showCreateForm} onOpenChange={(open) => { if (!open) resetCreateForm(); }}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-[480px] bg-[#0f0f0f] border-white/10 p-0 flex flex-col"
+          className="w-full sm:max-w-[480px] bg-[#0f0f0f] border-white/10 p-0 flex flex-col overflow-hidden"
         >
           <SheetHeader className="px-6 pt-6 pb-4 border-b border-white/10 shrink-0">
             <SheetTitle className="text-white text-lg font-semibold">Шинэ захиалга</SheetTitle>
@@ -424,7 +423,7 @@ export default function AdminOrdersPage() {
             </SheetDescription>
           </SheetHeader>
 
-          <ScrollArea className="flex-1">
+          <div className="flex-1 overflow-y-auto">
             <form id="create-order-form" onSubmit={handleCreateOrder} className="px-6 py-5 space-y-5">
 
               <div className="space-y-4">
@@ -608,7 +607,7 @@ export default function AdminOrdersPage() {
                 </div>
               )}
             </form>
-          </ScrollArea>
+          </div>
 
           <div className="px-6 py-4 border-t border-white/10 flex gap-3 shrink-0">
             <button
