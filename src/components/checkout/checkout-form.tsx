@@ -71,6 +71,7 @@ export function CheckoutForm() {
 
       const order = await orderRes.json();
       setOrderId(order.id);
+      clearCart();
 
       // Create QPay invoice
       const qpayRes = await fetch("/api/qpay/invoice", {
@@ -93,7 +94,6 @@ export function CheckoutForm() {
   };
 
   const handlePaymentSuccess = () => {
-    clearCart();
     toast.success("Төлбөр амжилттай! Баярлалаа!");
     router.push("/orders");
   };

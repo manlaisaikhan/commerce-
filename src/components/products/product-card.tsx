@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { ShoppingBag, Plus } from "lucide-react";
+import { ShoppingBag, Plus, Loader2 } from "lucide-react";
 import { useCartStore } from "@/lib/store/cart-store";
 import { toast } from "sonner";
 
@@ -20,10 +21,13 @@ interface ProductCardProps {
 
 export function ProductCard3D({ product }: ProductCardProps) {
   const addItem = useCartStore((s) => s.addItem);
+  const [adding, setAdding] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (adding) return;
+    setAdding(true);
     addItem({
       id: product.id,
       name: product.name,
@@ -32,6 +36,7 @@ export function ProductCard3D({ product }: ProductCardProps) {
       image: product.image || "",
     });
     toast.success(`${product.name} сагсанд нэмэгдлээ`);
+    setTimeout(() => setAdding(false), 500);
   };
 
   const isOutOfStock = product.stock === 0;
@@ -85,8 +90,8 @@ export function ProductCard3D({ product }: ProductCardProps) {
               onClick={handleAddToCart}
               className="absolute bottom-3 right-3 flex items-center gap-2 bg-white text-black rounded-full pl-3 pr-3 py-2 opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 transition-all duration-300 shadow-lg hover:bg-white/90 text-[11px] font-bold uppercase tracking-wide whitespace-nowrap"
             >
-              <Plus size={13} strokeWidth={2.5} />
-              Сагсанд
+              {adding ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} strokeWidth={2.5} />}
+              {adding ? "..." : "Сагсанд"}
             </button>
           )}
         </div>

@@ -34,13 +34,16 @@ interface Product {
   name: string;
   price: number;
   stock: number;
+  images?: string[];
 }
 
 interface OrderItem {
   productId: string;
   productName: string;
+  productImage?: string;
   price: number;
   quantity: number;
+  size?: string;
 }
 
 const statusOptions = [
@@ -133,18 +136,21 @@ export default function AdminOrdersPage() {
     fetchOrders();
   };
 
-  const addProduct = (product: Product) => {
-    const existing = orderItems.find((i) => i.productId === product.id);
+  const addProduct = (product: Product, size?: string) => {
+    const key = product.id + (size || "");
+    const existing = orderItems.find((i) => i.productId === product.id && i.size === size);
     if (existing) {
       setOrderItems(orderItems.map((i) =>
-        i.productId === product.id ? { ...i, quantity: i.quantity + 1 } : i
+        (i.productId + (i.size || "")) === key ? { ...i, quantity: i.quantity + 1 } : i
       ));
     } else {
       setOrderItems([...orderItems, {
         productId: product.id,
         productName: product.name,
+        productImage: product.images?.[0],
         price: product.price,
         quantity: 1,
+        size,
       }]);
     }
   };
@@ -505,15 +511,43 @@ export default function AdminOrdersPage() {
                     <div className="py-6 text-center text-xs text-white/30">Бараа олдсонгүй</div>
                   ) : (
                     products.map((p) => (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClick={() => addProduct(p)}
-                        className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/5 transition-colors text-sm text-left"
-                      >
-                        <span className="text-white/80">{p.name}</span>
-                        <span className="text-white/40 tabular-nums shrink-0 ml-2">{p.price.toLocaleString()}₮</span>
-                      </button>
+                      <div key={p.id} className="px-3 py-2.5 hover:bg-white/5 transition-colors">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-white/5 overflow-hidden shrink-0">
+                            {p.images?.[0] ? (
+                              <img src={p.images[0]} alt="" className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <ShoppingBag size={14} className="text-white/20" />
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm text-white/80 truncate">{p.name}</p>
+                            <p className="text-xs text-white/40 tabular-nums">{p.price.toLocaleString()}₮</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => addProduct(p)}
+                            className="text-[10px] bg-white/10 hover:bg-white/20 text-white/70 px-2 py-1 rounded transition-colors shrink-0"
+                          >
+                            Нэмэх
+                          </button>
+                        </div>
+                        {/* Size buttons */}
+                        <div className="flex gap-1 mt-2 ml-13">
+                          {["S","M","L","XL","2XL"].map((s) => (
+                            <button
+                              key={s}
+                              type="button"
+                              onClick={() => addProduct(p, s)}
+                              className="text-[10px] px-2 py-1 border border-white/10 rounded hover:bg-violet-500/20 hover:border-violet-500/30 hover:text-violet-300 text-white/40 transition-colors"
+                            >
+                              {s}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     ))
                   )}
                 </div>
@@ -524,9 +558,25 @@ export default function AdminOrdersPage() {
                 <div className="space-y-2">
                   <p className="text-[10px] text-white/30 uppercase tracking-wider">Сонгосон бараанууд</p>
                   <div className="rounded-lg border border-white/10 divide-y divide-white/5 overflow-hidden">
-                    {orderItems.map((item) => (
-                      <div key={item.productId} className="flex items-center gap-3 px-3 py-2.5">
-                        <span className="flex-1 text-sm text-white/80 truncate">{item.productName}</span>
+                    {orderItems.map((item, idx) => (
+                      <div key={item.productId + (item.size || "") + idx} className="flex items-center gap-3 px-3 py-2.5">
+                        <div className="w-8 h-8 rounded bg-white/5 overflow-hidden shrink-0">
+                          {item.productImage ? (
+                            <img src={item.productImage} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <ShoppingBag size={10} className="text-white/20" />
+                            </div>
+                          )}
+                        </div>
+                        <span className="flex-1 text-sm text-white/80 truncate">
+                          {item.productName}
+                          {item.size && (
+                            <span className="ml-1.5 text-[10px] bg-violet-500/20 text-violet-300 px-1.5 py-0.5 rounded font-medium">
+                              {item.size}
+                            </span>
+                          )}
+                        </span>
                         <span className="text-xs text-white/30 tabular-nums shrink-0">
                           {item.price.toLocaleString()}₮
                         </span>

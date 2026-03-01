@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, Minus, Plus, Check } from "lucide-react";
+import { ShoppingBag, Minus, Plus, Check, Loader2 } from "lucide-react";
 import { useCartStore } from "@/lib/store/cart-store";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -21,10 +21,12 @@ interface AddToCartBtnProps {
 export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [adding, setAdding] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
 
   const handleAdd = () => {
-    if (product.stock === 0) return;
+    if (product.stock === 0 || adding) return;
+    setAdding(true);
     addItem(
       {
         id: product.id,
@@ -36,9 +38,12 @@ export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
       quantity,
       selectedSize || undefined
     );
-    setAdded(true);
-    toast.success(`${product.name} сагсанд нэмэгдлээ`);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => {
+      setAdding(false);
+      setAdded(true);
+      toast.success(`${product.name} сагсанд нэмэгдлээ`);
+      setTimeout(() => setAdded(false), 2000);
+    }, 400);
   };
 
   const isOutOfStock = product.stock === 0;
@@ -72,25 +77,17 @@ export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
           className="flex-1 h-14 bg-white/10 border border-white/20 text-white text-sm font-semibold rounded-lg flex items-center justify-center gap-2 hover:bg-white/15 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         >
           <AnimatePresence mode="wait">
-            {added ? (
-              <motion.span
-                key="added"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex items-center gap-2"
-              >
+            {adding ? (
+              <motion.span key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <Loader2 size={18} className="animate-spin" />
+              </motion.span>
+            ) : added ? (
+              <motion.span key="added" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex items-center gap-2">
                 <Check size={18} />
                 Нэмэгдлээ
               </motion.span>
             ) : (
-              <motion.span
-                key="add"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex items-center gap-2"
-              >
+              <motion.span key="add" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex items-center gap-2">
                 <ShoppingBag size={18} />
                 Сагслах
               </motion.span>
@@ -105,9 +102,10 @@ export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
         ) : (
           <button
             onClick={handleAdd}
-            className="flex-1 h-14 bg-white text-black text-sm font-semibold rounded-lg flex items-center justify-center hover:bg-white/90 transition-colors"
+            disabled={adding}
+            className="flex-1 h-14 bg-white text-black text-sm font-semibold rounded-lg flex items-center justify-center hover:bg-white/90 transition-colors disabled:opacity-70"
           >
-            Худалдан авах
+            {adding ? <Loader2 size={18} className="animate-spin" /> : "Худалдан авах"}
           </button>
         )}
       </div>
