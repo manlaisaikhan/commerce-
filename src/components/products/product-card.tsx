@@ -49,7 +49,8 @@ export function ProductCard3D({ product }: ProductCardProps) {
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 will-change-transform"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

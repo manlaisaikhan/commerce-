@@ -10,6 +10,7 @@ import { CartSidebar } from "./cart-sidebar";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { UserMenu } from "./user-menu";
 import { AuronLogo } from "@/components/ui/auron-logo";
+import { SearchOverlay } from "./search-overlay";
 
 interface Category {
   id: string;
@@ -22,6 +23,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const itemCount = useCartStore((s) => s.itemCount());
@@ -75,12 +77,12 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-1">
-            <Link
-              href="/products"
+            <button
+              onClick={() => setSearchOpen(true)}
               className="p-2.5 rounded-full hover:bg-white/10 transition-colors"
             >
               <Search size={18} className="text-white/70" />
-            </Link>
+            </button>
 
             <button
               onClick={() => setCartOpen(true)}
@@ -142,6 +144,7 @@ export function Header() {
       </header>
 
       <CartSidebar open={cartOpen} onClose={() => setCartOpen(false)} />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

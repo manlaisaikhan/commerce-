@@ -27,11 +27,11 @@ export function HeroSection() {
         <motion.div
           key={i}
           initial={false}
-          animate={{ opacity: i === current ? 1 : 0, scale: i === current ? 1 : 1.05 }}
-          transition={{ duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="absolute inset-0"
+          animate={{ opacity: i === current ? 1 : 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+          className="absolute inset-0 will-change-[opacity]"
         >
-          <img src={s.image} alt="" className="w-full h-full object-cover object-center" />
+          <img src={s.image} alt="" loading={i === 0 ? "eager" : "lazy"} className="w-full h-full object-cover object-center" />
         </motion.div>
       ))}
 
