@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShoppingBag, Share2, ZoomIn, ChevronRight } from "lucide-react";
+import { ShoppingBag, Share2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { AddToCartBtn } from "@/components/products/add-to-cart-btn";
 import { ProductCard3D } from "@/components/products/product-card";
@@ -15,6 +15,7 @@ interface Product {
   price: number;
   comparePrice: number | null;
   images: string[];
+  sizes: string[];
   stock: number;
   category: { name: string; slug: string };
 }
@@ -28,10 +29,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
-  const sizes = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
-  const showSizes = !/электрон|electron|tech|утас|phone|компьютер|computer|tablet/i.test(
-    product.category.name + " " + product.category.slug
-  );
+  const showSizes = product.sizes.length > 0;
 
   return (
     <div className="pt-6 pb-20 animate-page-enter">
@@ -97,9 +95,6 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                   </motion.div>
                 </AnimatePresence>
 
-                <button className="absolute bottom-4 left-4 w-10 h-10 bg-black/60 backdrop-blur rounded-full flex items-center justify-center text-white/70 hover:text-white transition-colors">
-                  <ZoomIn size={18} />
-                </button>
               </div>
 
               {product.images.length > 1 && (
@@ -154,7 +149,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
               <div className="mb-8">
                 <p className="text-sm font-semibold mb-3">Хэмжээ:</p>
                 <div className="flex flex-wrap gap-2">
-                  {sizes.map((size) => (
+                  {product.sizes.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}

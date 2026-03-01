@@ -9,6 +9,7 @@ interface Product {
   name: string;
   slug: string;
   price: number;
+  stock: number;
   images: string[];
 }
 
@@ -103,6 +104,13 @@ export function Categories() {
                           />
                         ) : (
                           <div className="w-full h-full bg-[#c8c8c8]" />
+                        )}
+                        {product.stock === 0 && (
+                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-[1px]">
+                            <span className="bg-black/80 border border-white/20 text-white text-[10px] font-semibold px-3 py-1 rounded-full tracking-wider uppercase">
+                              Дууссан
+                            </span>
+                          </div>
                         )}
                       </div>
 

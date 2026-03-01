@@ -22,10 +22,13 @@ interface Product {
   stock: number;
   featured: boolean;
   images: string[];
+  sizes: string[];
   categoryId: string;
   category: { name: string };
   createdAt: string;
 }
+
+const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
 
 interface Category {
   id: string;
@@ -53,6 +56,7 @@ export default function AdminProductsPage() {
     categoryId: "",
     featured: false,
     images: [""],
+    sizes: [] as string[],
   });
 
   const fetchProducts = useCallback(async () => {
@@ -77,7 +81,7 @@ export default function AdminProductsPage() {
   }, []);
 
   const resetForm = () => {
-    setForm({ name: "", description: "", price: "", comparePrice: "", stock: "0", categoryId: "", featured: false, images: [""] });
+    setForm({ name: "", description: "", price: "", comparePrice: "", stock: "0", categoryId: "", featured: false, images: [""], sizes: [] });
     setEditId(null);
     setShowForm(false);
   };
@@ -92,6 +96,7 @@ export default function AdminProductsPage() {
       categoryId: p.categoryId,
       featured: p.featured,
       images: p.images.length > 0 ? p.images : [""],
+      sizes: p.sizes || [],
     });
     setEditId(p.id);
     setShowForm(true);
@@ -189,15 +194,41 @@ export default function AdminProductsPage() {
                 <input type="checkbox" id="featured" checked={form.featured} onChange={(e) => setForm({ ...form, featured: e.target.checked })} className="rounded" />
                 <label htmlFor="featured" className="text-sm text-white/70">Онцлох</label>
               </div>
-              <div className="flex items-center gap-2">
-                <input type="checkbox" id="outOfStock" checked={form.stock === "0"} onChange={(e) => setForm({ ...form, stock: e.target.checked ? "0" : "10" })} className="rounded accent-red-500" />
-                <label htmlFor="outOfStock" className="text-sm text-red-400">Дууссан</label>
-              </div>
+              {editId && (
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="outOfStock" checked={form.stock === "0"} onChange={(e) => setForm({ ...form, stock: e.target.checked ? "0" : "10" })} className="rounded accent-red-500" />
+                  <label htmlFor="outOfStock" className="text-sm text-red-400">Дууссан</label>
+                </div>
+              )}
             </div>
           </div>
           <div>
             <label className="text-xs text-white/50 mb-1 block">Тайлбар</label>
             <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} className="w-full bg-black border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-white/30 resize-none" />
+          </div>
+          <div>
+            <label className="text-xs text-white/50 mb-1 block">Хэмжээ (хэрэгтэй бол сонгоно)</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {SIZE_OPTIONS.map((size) => (
+                <button
+                  key={size}
+                  type="button"
+                  onClick={() => {
+                    const sizes = form.sizes.includes(size)
+                      ? form.sizes.filter((s) => s !== size)
+                      : [...form.sizes, size];
+                    setForm({ ...form, sizes });
+                  }}
+                  className={`min-w-11 h-9 px-3 rounded-lg text-sm font-medium border transition-all ${
+                    form.sizes.includes(size)
+                      ? "bg-white text-black border-white"
+                      : "border-white/15 text-white/50 hover:border-white/30"
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
           </div>
           <div>
             <label className="text-xs text-white/50 mb-1 block">Зургийн URL</label>
