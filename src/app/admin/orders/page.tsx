@@ -6,7 +6,7 @@ import {
   ChevronDown, ChevronUp, Phone, MapPin, FileText, CreditCard, ShoppingBag,
 } from "lucide-react";
 import {
-  Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
+  Sheet, SheetContent, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
 import dynamic from "next/dynamic";
 
@@ -414,16 +414,16 @@ export default function AdminOrdersPage() {
       <Sheet open={showCreateForm} onOpenChange={(open) => { if (!open) resetCreateForm(); }}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-[480px] bg-[#0f0f0f] border-white/10 p-0 flex flex-col overflow-hidden"
+          className="w-full sm:max-w-[480px] bg-[#0f0f0f] border-white/10 p-0 !gap-0 h-[100dvh] overflow-hidden"
         >
-          <SheetHeader className="px-6 pt-6 pb-4 border-b border-white/10 shrink-0">
+          <div className="px-6 pt-6 pb-4 border-b border-white/10 shrink-0">
             <SheetTitle className="text-white text-lg font-semibold">Шинэ захиалга</SheetTitle>
             <SheetDescription className="text-white/40 text-sm">
               Утсаар эсвэл чатаар ирсэн захиалга оруулах
             </SheetDescription>
-          </SheetHeader>
+          </div>
 
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: "touch" }}>
             <form id="create-order-form" onSubmit={handleCreateOrder} className="px-6 py-5 space-y-5">
 
               <div className="space-y-4">
