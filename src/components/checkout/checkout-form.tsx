@@ -55,6 +55,7 @@ export function CheckoutForm() {
           items: items.map((i) => ({
             productId: i.product.id,
             quantity: i.quantity,
+            size: i.size,
           })),
           phone,
           address,
@@ -154,7 +155,7 @@ export function CheckoutForm() {
         {items.map((item) => (
           <div key={item.product.id} className="flex justify-between text-sm">
             <span className="text-muted-foreground">
-              {item.product.name} x{item.quantity}
+              {item.product.name}{item.size && ` (${item.size})`} x{item.quantity}
             </span>
             <span>{(item.product.price * item.quantity).toLocaleString()}₮</span>
           </div>

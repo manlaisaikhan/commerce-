@@ -59,12 +59,13 @@ export async function POST(req: Request) {
         note,
         items: {
           create: items.map(
-            (item: { productId: string; quantity: number }) => {
+            (item: { productId: string; quantity: number; size?: string }) => {
               const product = products.find((p) => p.id === item.productId);
               return {
                 productId: item.productId,
                 quantity: item.quantity,
                 price: product?.price || 0,
+                size: item.size || null,
               };
             }
           ),

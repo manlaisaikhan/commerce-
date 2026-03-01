@@ -23,6 +23,7 @@ interface Order {
     id: string;
     quantity: number;
     price: number;
+    size: string | null;
     product: { name: string };
   }>;
   payment: { status: string } | null;
@@ -337,7 +338,14 @@ export default function AdminOrdersPage() {
                             key={item.id}
                             className={`flex items-center justify-between px-3 py-2.5 text-sm ${idx !== 0 ? "border-t border-white/5" : ""}`}
                           >
-                            <span className="text-white/70 flex-1">{item.product.name}</span>
+                            <span className="text-white/70 flex-1">
+                              {item.product.name}
+                              {item.size && (
+                                <span className="ml-2 text-[10px] bg-violet-500/20 text-violet-300 px-1.5 py-0.5 rounded font-medium">
+                                  {item.size}
+                                </span>
+                              )}
+                            </span>
                             <span className="text-[11px] text-white/30 bg-white/5 px-2 py-0.5 rounded mx-3">
                               x{item.quantity}
                             </span>

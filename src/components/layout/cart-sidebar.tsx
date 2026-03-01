@@ -82,9 +82,16 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
                         <h3 className="font-medium text-sm truncate">
                           {item.product.name}
                         </h3>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {item.product.price.toLocaleString()}₮
-                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <p className="text-sm text-muted-foreground">
+                            {item.product.price.toLocaleString()}₮
+                          </p>
+                          {item.size && (
+                            <span className="text-[10px] bg-violet-500/20 text-violet-300 px-1.5 py-0.5 rounded font-medium">
+                              {item.size}
+                            </span>
+                          )}
+                        </div>
                         <div className="flex items-center gap-2 mt-2">
                           <button
                             onClick={() =>

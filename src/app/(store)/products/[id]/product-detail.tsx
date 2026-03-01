@@ -192,6 +192,7 @@ export function ProductDetail({ product, relatedProducts }: ProductDetailProps) 
                 image: product.images[0] || "",
                 stock: product.stock,
               }}
+              selectedSize={selectedSize}
             />
 
             {/* Delivery info */}

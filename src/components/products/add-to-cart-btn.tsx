@@ -15,9 +15,10 @@ interface AddToCartBtnProps {
     image: string;
     stock: number;
   };
+  selectedSize?: string | null;
 }
 
-export function AddToCartBtn({ product }: AddToCartBtnProps) {
+export function AddToCartBtn({ product, selectedSize }: AddToCartBtnProps) {
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
@@ -32,7 +33,8 @@ export function AddToCartBtn({ product }: AddToCartBtnProps) {
         price: product.price,
         image: product.image,
       },
-      quantity
+      quantity,
+      selectedSize || undefined
     );
     setAdded(true);
     toast.success(`${product.name} сагсанд нэмэгдлээ`);
