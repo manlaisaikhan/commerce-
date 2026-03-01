@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { sendNewOrderEmail } from "@/lib/email";
 
 export async function GET() {
   try {
@@ -75,6 +76,15 @@ export async function POST(req: Request) {
         items: { include: { product: true } },
       },
     });
+
+    sendNewOrderEmail({
+      orderId: order.id,
+      total: order.total,
+      phone,
+      address,
+      note,
+      items: order.items,
+    }).catch(() => {});
 
     return NextResponse.json(order);
   } catch {
