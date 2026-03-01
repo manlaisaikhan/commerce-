@@ -29,7 +29,7 @@ interface Product {
   createdAt: string;
 }
 
-const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "2XL", "3XL"];
+const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "2XL", "3XL", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45"];
 const COLOR_OPTIONS: { name: string; value: string }[] = [
   { name: "Хар", value: "#000000" },
   { name: "Цагаан", value: "#FFFFFF" },

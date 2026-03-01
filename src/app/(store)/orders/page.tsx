@@ -13,6 +13,7 @@ interface Order {
     id: string;
     quantity: number;
     price: number;
+    size: string | null;
     product: { name: string; images: string[] };
   }>;
   payment: { status: string } | null;
@@ -89,7 +90,15 @@ export default function OrdersPage() {
                   <div className="space-y-2">
                     {order.items.map((item) => (
                       <div key={item.id} className="flex justify-between text-sm">
-                        <span className="text-white/50">{item.product.name} x{item.quantity}</span>
+                        <span className="text-white/50">
+                          {item.product.name}
+                          {item.size && (
+                            <span className="ml-1.5 text-[10px] bg-violet-500/20 text-violet-300 px-1.5 py-0.5 rounded font-medium">
+                              {item.size}
+                            </span>
+                          )}
+                          {" "}x{item.quantity}
+                        </span>
                         <span>{(item.price * item.quantity).toLocaleString()}₮</span>
                       </div>
                     ))}
